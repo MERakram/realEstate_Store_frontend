@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:oued_kniss1/component/ButtomNav.dart';
-import 'package:oued_kniss1/component/categories.dart';
-import 'package:oued_kniss1/component/dropdownbutton.dart';
+import 'package:oued_kniss1/component/homePageComponent/categories.dart';
+import 'package:oued_kniss1/component/homePageComponent/dropdownbutton.dart';
 
-import '../component/RecomendedCard.dart';
-import '../component/SmallCard.dart';
+import '../component/homePageComponent/RecomendedCard.dart';
+import '../component/homePageComponent/SmallCard.dart';
+
 
 
 class HomePage extends StatelessWidget {

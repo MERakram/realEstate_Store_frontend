@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:oued_kniss1/component/forRent.dart';
+import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
-import 'SmallHouseImage.dart';
+import '../SmallHouseImage.dart';
+
 
 class SmallCard extends StatelessWidget {
   @override

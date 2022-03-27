@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:oued_kniss1/component/forRent.dart';
+import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
-import 'BigHouseImage.dart';
+import '../BigHouseImage.dart';
 
 class RecommendedCard extends StatelessWidget {
   @override

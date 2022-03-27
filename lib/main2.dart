@@ -216,7 +216,7 @@ class _OfferPageState extends State<OfferPage> {
                             height: 2,
                           ),
                           ExpandText(
-                            text,
+                            text,style: TextStyle(fontSize: 30),
                             textAlign: TextAlign.justify,
                           ),
                         ],

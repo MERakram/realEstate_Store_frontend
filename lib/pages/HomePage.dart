@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
 import 'package:oued_kniss1/component/ButtomNav.dart';
 import 'package:oued_kniss1/component/homePageComponent/categories.dart';
 import 'package:oued_kniss1/component/homePageComponent/dropdownbutton.dart';
-
+import 'package:oued_kniss1/main2.dart';
 import '../component/homePageComponent/RecomendedCard.dart';
 import '../component/homePageComponent/SmallCard.dart';
 
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +51,6 @@ class HomePage extends StatelessWidget {
               backgroundColor: const Color(0xFFF1F1F1),
               // backgroundColor: Colors.pink,
               leadingWidth: 70,
-
               leading: Container(
                 child: Icon(
                   Icons.ac_unit,
@@ -107,7 +110,7 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: nav(),
+        // bottomNavigationBar: nav(),
       ),
       debugShowCheckedModeBanner: false,
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:oued_kniss1/component/ButtomNav.dart';
 import 'package:oued_kniss1/component/homePageComponent/categories.dart';
 import 'package:oued_kniss1/component/homePageComponent/dropdownbutton.dart';
-import 'package:oued_kniss1/main2.dart';
 import '../component/homePageComponent/RecomendedCard.dart';
 import '../component/homePageComponent/SmallCard.dart';
 
@@ -26,17 +24,17 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Text(
+                    const Text(
                       "Location",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
-                    Container(margin: EdgeInsets.only(bottom: 10),
+                    Container(margin: const EdgeInsets.only(bottom: 10),
                       height: 30,
                       width: 150,
                       child: dropdownbutton(),
@@ -52,41 +50,41 @@ class _HomePageState extends State<HomePage> {
               // backgroundColor: Colors.pink,
               leadingWidth: 70,
               leading: Container(
-                child: Icon(
+                child: const Icon(
                   Icons.ac_unit,
                   color: Colors.black,
                 ),
-                margin: EdgeInsets.fromLTRB(20, 3, 0, 10),
+                margin: const EdgeInsets.fromLTRB(20, 3, 0, 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6.0),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFF605F5F).withOpacity(0.2),
+                      color: const Color(0xFF605F5F).withOpacity(0.2),
                       spreadRadius: 4,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
               ),
               actions: <Widget>[
                 Container(
-                  child: Icon(
+                  child: const Icon(
                     Icons.star,
                     color: Colors.black,
                   ),
                   width: 52,
-                  margin: EdgeInsets.fromLTRB(0, 3, 17, 10),
+                  margin: const EdgeInsets.fromLTRB(0, 3, 17, 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6.0),
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF605F5F).withOpacity(0.2),
+                        color: const Color(0xFF605F5F).withOpacity(0.2),
                         spreadRadius: 4,
                         blurRadius: 7,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),

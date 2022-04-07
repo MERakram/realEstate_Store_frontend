@@ -8,12 +8,12 @@ class offerDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(7),
+      padding: const EdgeInsets.all(7),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 7,
             ),
             Padding(
@@ -33,7 +33,7 @@ class offerDescription extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   ),
                   const Text(
@@ -43,12 +43,12 @@ class offerDescription extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   ),
                   ExpandText(
                     text,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                     textAlign: TextAlign.justify,
                   ),
                 ],
@@ -61,10 +61,10 @@ class offerDescription extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF605F5F).withOpacity(0.2),
+              color: const Color(0xFF605F5F).withOpacity(0.2),
               spreadRadius: 4,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),

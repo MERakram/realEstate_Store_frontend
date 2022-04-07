@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
 import '../BigHouseImage.dart';
@@ -11,22 +10,22 @@ class RecommendedCard extends StatelessWidget {
     double height = size.height;
     double width = size.width;
     // TODO: implement build
-    return Container(
+    return SizedBox(
       height: height * 0.51,
       child: ListView.builder(
           physics: const BouncingScrollPhysics(parent: null),
           shrinkWrap: true,
           itemCount: 10,
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.fromLTRB(12, 1, 12, 5),
+          padding: const EdgeInsets.fromLTRB(12, 1, 12, 5),
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: EdgeInsets.all(7),
+              padding: const EdgeInsets.all(7),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
                     BigHouseImage(),
@@ -48,7 +47,7 @@ class RecommendedCard extends StatelessWidget {
                               fontSize: 20,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           const Text(
@@ -58,7 +57,7 @@ class RecommendedCard extends StatelessWidget {
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Container(
@@ -109,10 +108,10 @@ class RecommendedCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
-                          Text(
+                          const Text(
                             '\$ 120.00 / day',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -126,10 +125,10 @@ class RecommendedCard extends StatelessWidget {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFF605F5F).withOpacity(0.2),
+                      color: const Color(0xFF605F5F).withOpacity(0.2),
                       spreadRadius: 4,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),

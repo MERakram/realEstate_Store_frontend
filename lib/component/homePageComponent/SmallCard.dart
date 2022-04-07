@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
 import '../SmallHouseImage.dart';
@@ -19,7 +18,7 @@ class SmallCard extends StatelessWidget {
       scrollDirection: Axis.vertical,
       itemBuilder: (BuildContext context, int index) {
         return Container(
-          padding: EdgeInsets.fromLTRB(10, 07, 10, 7),
+          padding: const EdgeInsets.fromLTRB(10, 07, 10, 7),
           child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -128,18 +127,18 @@ class SmallCard extends StatelessWidget {
               ],
             ),
             height: height * 0.22,
-            margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
-            padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+            margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
               color: Colors.white,
               shape: BoxShape.rectangle,
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF605F5F).withOpacity(0.2),
+                  color: const Color(0xFF605F5F).withOpacity(0.2),
                   spreadRadius: 4,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),

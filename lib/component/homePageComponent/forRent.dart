@@ -10,7 +10,7 @@ class ForRent extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Color(0xFFBAF6F1),
+        color: const Color(0xFFBAF6F1),
         shape: BoxShape.rectangle,
       ),
       // alignment: Align(),

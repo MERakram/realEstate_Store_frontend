@@ -51,10 +51,10 @@ class _searchBarState extends State<searchBar> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Color(0xFF605F5F).withOpacity(0.2),
+                color: const Color(0xFF605F5F).withOpacity(0.2),
                 spreadRadius: 4,
                 blurRadius: 7,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -70,10 +70,10 @@ class _searchBarState extends State<searchBar> {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Color(0xFF605F5F).withOpacity(0.2),
+                color: const Color(0xFF605F5F).withOpacity(0.2),
                 spreadRadius: 4,
                 blurRadius: 7,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),

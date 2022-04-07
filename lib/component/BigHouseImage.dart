@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_like_button/insta_like_button.dart';
 import 'package:like_button/like_button.dart';
@@ -35,7 +34,7 @@ class _BigHouseImageState extends State<BigHouseImage> {
                   icon: Icons.favorite_border,
                   iconColor: Colors.red,
                   imageBoxfit: BoxFit.cover,
-                  image: AssetImage("assets/images/home.jpg"),
+                  image: const AssetImage("assets/images/home.jpg"),
                   onChanged: () {
                     setState(() {
                       isliked = true;
@@ -46,9 +45,9 @@ class _BigHouseImageState extends State<BigHouseImage> {
                   right: 10,
                   top: 5,
                   child: LikeButton(
-                    circleColor: CircleColor(
+                    circleColor: const CircleColor(
                         start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                    bubblesColor: BubblesColor(
+                    bubblesColor: const BubblesColor(
                       dotPrimaryColor: Color(0xff33b5e5),
                       dotSecondaryColor: Color(0xff0099cc),
                     ),

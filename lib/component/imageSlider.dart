@@ -11,7 +11,7 @@ class imageSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   Center(
-      child: Container(height: 300,
+      child: SizedBox(height: 300,
         child: CarouselSlider.builder(
           options: CarouselOptions(
             height: 200.0,
@@ -20,7 +20,7 @@ class imageSlider extends StatelessWidget {
             aspectRatio: 16 / 9,
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            autoPlayAnimationDuration: const Duration(milliseconds: 800),
             viewportFraction: 0.8,
           ),
           itemCount: images.length,
@@ -43,10 +43,10 @@ class imageSlider extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF605F5F).withOpacity(0.2),
+            color: const Color(0xFF605F5F).withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),

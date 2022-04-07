@@ -7,7 +7,7 @@ class agencyMiniProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(7),
+      padding: const EdgeInsets.all(7),
       child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -29,21 +29,21 @@ class agencyMiniProfile extends StatelessWidget {
                 const EdgeInsets.fromLTRB(10, 1, 0, 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
+                  children: const [
+                    SizedBox(
                       height: 10,
                     ),
-                    const Text(
+                    Text(
                       'house mda5en in cuoertino',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 12,
                     ),
-                    const Text(
+                    Text(
                       'house mda5en in cupertino',
                       softWrap: true,
                       style: TextStyle(
@@ -55,7 +55,7 @@ class agencyMiniProfile extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            const SizedBox(
               child: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.black,
@@ -66,17 +66,17 @@ class agencyMiniProfile extends StatelessWidget {
           ],
         ),
         height: 90,
-        padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+        padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           color: Colors.white,
           shape: BoxShape.rectangle,
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF605F5F).withOpacity(0.2),
+              color: const Color(0xFF605F5F).withOpacity(0.2),
               spreadRadius: 4,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),

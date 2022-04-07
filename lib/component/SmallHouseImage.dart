@@ -15,7 +15,7 @@ class SmallHouseImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       width: 290,
-      height: 240,
+      height: 290,
       child: Container(
         padding:
         const EdgeInsets.fromLTRB(6, 5, 5, 6), // Border width

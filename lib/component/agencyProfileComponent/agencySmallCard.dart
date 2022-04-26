@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-
-class SmallHouseImage2 extends StatelessWidget {
-
+class agencySmallCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

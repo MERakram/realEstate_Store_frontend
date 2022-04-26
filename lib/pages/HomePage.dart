@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/homePageComponent/categories.dart';
 import 'package:oued_kniss1/component/homePageComponent/dropdownbutton.dart';
+import 'package:oued_kniss1/pages/OfferPage.dart';
 import '../component/homePageComponent/RecomendedCard.dart';
 import '../component/homePageComponent/SmallCard.dart';
-
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,7 +34,8 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
-                    Container(margin: const EdgeInsets.only(bottom: 10),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
                       height: 30,
                       width: 150,
                       child: dropdownbutton(),
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
               leadingWidth: 70,
               leading: Container(
                 child: const Icon(
-                  Icons.ac_unit,
+                  Icons.settings,
                   color: Colors.black,
                 ),
                 margin: const EdgeInsets.fromLTRB(20, 3, 0, 10),
@@ -70,9 +71,10 @@ class _HomePageState extends State<HomePage> {
               ),
               actions: <Widget>[
                 Container(
-                  child: const Icon(
-                    Icons.star,
-                    color: Colors.black,
+                  // padding: EdgeInsets.all(5),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage('assets/images/img.png'),
                   ),
                   width: 52,
                   margin: const EdgeInsets.fromLTRB(0, 3, 17, 10),
@@ -93,12 +95,21 @@ class _HomePageState extends State<HomePage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
+                (BuildContext context, int index) {
                   return Column(
                     children: [
                       // searchBar(),
                       categories(),
-                      RecommendedCard(),
+                      GestureDetector(
+                        child: RecommendedCard(),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OfferPage()),
+                          );
+                        },
+                      ),
                       SmallCard(),
                     ],
                   );

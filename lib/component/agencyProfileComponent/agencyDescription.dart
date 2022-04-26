@@ -6,7 +6,7 @@ import 'agencyMiniProfile2.dart';
 
 
 
-class offerDescription2 extends StatelessWidget {
+class agencyDesc extends StatelessWidget {
   String text = lorem(paragraphs: 4, words: 70);
 
   @override

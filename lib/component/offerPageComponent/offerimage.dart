@@ -1,6 +1,7 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:oued_kniss1/pages/HomePage.dart';
 import '../imageSlider.dart';
 
 class OfferImage extends StatefulWidget {
@@ -42,25 +43,6 @@ class _OfferImageState extends State<OfferImage> {
                         color: isliked ? Colors.deepPurpleAccent : Colors.black,
                       );
                     },
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  top: 2,
-                  child: BlurryContainer(
-                    blur: 50,
-                    borderRadius: BorderRadius.circular(10),
-                    bgColor: const Color(0x00eee1cf),
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    height: 45,
-                    width: 45,
-                    child: const Center(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 27,
-                      ),
-                    ),
                   ),
                 ),
               ],

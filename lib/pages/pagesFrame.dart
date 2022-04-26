@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:oued_kniss1/pages/AgencyProfile.dart';
 import 'package:oued_kniss1/pages/HomePage.dart';
 
 
 
 import '../main3.dart';
 import 'OfferPage.dart';
-import 'agencyProfile.dart';
+import 'agencyDescription.dart';
 import 'mapSearch.dart';
 
 class pagesFrame extends StatefulWidget {
@@ -24,7 +25,7 @@ class _pagesFrameState extends State<pagesFrame> {
     HomePage(),
     OfferPage(),
     mapSearch(),
-    agencyProfile(),
+    AgencyProfile(),
   ];
 
   @override

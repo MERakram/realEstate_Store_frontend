@@ -1,3 +1,5 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_like_button/insta_like_button.dart';
 import 'package:like_button/like_button.dart';
@@ -42,21 +44,31 @@ class _BigHouseImageState extends State<BigHouseImage> {
                   },
                 ),
                 Positioned(
-                  right: 10,
+                  right: 5,
                   top: 5,
-                  child: LikeButton(
-                    circleColor: const CircleColor(
-                        start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                    bubblesColor: const BubblesColor(
-                      dotPrimaryColor: Color(0xff33b5e5),
-                      dotSecondaryColor: Color(0xff0099cc),
-                    ),
-                    likeBuilder: (isliked) {
-                      return Icon(
-                        Icons.favorite,
-                        color: isliked ? Colors.deepPurpleAccent : Colors.black,
-                      );
-                    },
+                  child: Stack(
+                    children: [
+                      LikeButton(
+                        circleColor: const CircleColor(
+                            start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                        bubblesColor: const BubblesColor(
+                          dotPrimaryColor: Color(0xff33b5e5),
+                          dotSecondaryColor: Color(0xff0099cc),
+                        ),
+                        likeBuilder: (isliked) {
+                          return Icon(
+                            isliked
+                                ? Icons.favorite
+                                : Icons.favorite,
+                            color: isliked
+                                ? Colors.red
+                                : Colors.white,
+                            size: 30,
+                          );
+                        },
+
+                      ),
+                    ],
                   ),
                 ),
               ],

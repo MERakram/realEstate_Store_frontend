@@ -17,15 +17,13 @@ class categories extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Container(
                 child:const Center(child: Text("category",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),),
-
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(13.0),
                   color: const Color(0xFFFFFFFF),
                   shape: BoxShape.rectangle,
                     boxShadow: [
                     BoxShadow(
-                    color: const Color(0xFF605F5F).withOpacity(0.2)
-                ,
+                    color: const Color(0xFF605F5F).withOpacity(0.2),
                 spreadRadius: 4,
                 blurRadius: 7,
                 offset: const Offset(0, 3),

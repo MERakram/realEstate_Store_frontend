@@ -1,9 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
+import '../../api.dart';
 import '../BigHouseImage.dart';
 
-class RecommendedCard extends StatelessWidget {
+class RecommendedCard extends StatefulWidget {
+  @override
+  State<RecommendedCard> createState() => _RecommendedCardState();
+}
+
+class _RecommendedCardState extends State<RecommendedCard> {
+
+  var _offers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadOffers();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -15,7 +32,7 @@ class RecommendedCard extends StatelessWidget {
       child: ListView.builder(
           physics: const BouncingScrollPhysics(parent: null),
           shrinkWrap: true,
-          itemCount: 10,
+          itemCount: _offers.length,
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.fromLTRB(12, 1, 12, 5),
           itemBuilder: (BuildContext context, int index) {
@@ -40,8 +57,8 @@ class RecommendedCard extends StatelessWidget {
                           const SizedBox(
                             height: 2,
                           ),
-                          const Text(
-                            'house mda5en in cupirtino ',
+                           Text(
+                             _offers[index]['title'],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -50,8 +67,8 @@ class RecommendedCard extends StatelessWidget {
                           const SizedBox(
                             height: 2,
                           ),
-                          const Text(
-                            'house mda5en in cupirtino hello wo ',
+                           Text(
+                             _offers[index]['description'],
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -111,8 +128,8 @@ class RecommendedCard extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          const Text(
-                            '\$ 120.00 / day',
+                           Text(
+                            '\$ ${_offers[index]['price'].toString()} / day',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -137,5 +154,17 @@ class RecommendedCard extends StatelessWidget {
             );
           }),
     );
+  }
+  _loadOffers() async {
+    var response = await Api().getData('/product');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offers = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

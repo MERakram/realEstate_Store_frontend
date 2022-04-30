@@ -27,7 +27,7 @@ class _mapSearchState extends State<mapSearch> {
    getloc(BuildContext context) async {
      try{
        LocationPermission permission = await Geolocator.requestPermission();
-       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
        print('long = ${position.longitude}');
        print('lat = ${position.latitude}');
        setState(() {

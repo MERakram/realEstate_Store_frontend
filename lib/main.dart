@@ -17,7 +17,7 @@ void main() {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
   runApp(
-    MaterialApp( home : addOfferPage(),
+    MaterialApp( home : loginPage(),
       debugShowCheckedModeBanner: false,
     ),
   );

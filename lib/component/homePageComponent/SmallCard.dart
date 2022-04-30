@@ -1,10 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
+import '../../api.dart';
 import '../SmallHouseImage.dart';
 
 
-class SmallCard extends StatelessWidget {
+class SmallCard extends StatefulWidget {
+  @override
+  State<SmallCard> createState() => _SmallCardState();
+}
+
+class _SmallCardState extends State<SmallCard> {
+  var _offers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadOffers();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -14,7 +29,7 @@ class SmallCard extends StatelessWidget {
     return ListView.builder(
       physics: const BouncingScrollPhysics(parent: null),
       shrinkWrap: true,
-      itemCount: 10,
+      itemCount:_offers.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (BuildContext context, int index) {
         return Container(
@@ -44,8 +59,8 @@ class SmallCard extends StatelessWidget {
                         const SizedBox(
                           height: 2,
                         ),
-                        const Text(
-                          'house mda5en in cuoertino',
+                         Text(
+                           _offers[index]['title'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
@@ -54,8 +69,8 @@ class SmallCard extends StatelessWidget {
                         const SizedBox(
                           height: 2,
                         ),
-                        const Text(
-                          'house mda5en in cupertino h',
+                         Text(
+                           _offers[index]['description'],
                           softWrap: true,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -116,8 +131,8 @@ class SmallCard extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          '\$ 120.00 / day',
+                         Text(
+                          '\$ ${_offers[index]['price'].toString()} / day',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -146,5 +161,18 @@ class SmallCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  _loadOffers() async {
+    var response = await Api().getData('/product');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offers = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 15,
+                      height: 14,
                     ),
                     const Text(
                       "Location",

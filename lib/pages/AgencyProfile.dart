@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oued_kniss1/pages/myOffersPage.dart';
 
 
 class AgencyProfile extends StatelessWidget {
@@ -59,7 +60,13 @@ class AgencyProfile extends StatelessWidget {
               ProfileMenu(
                 text: "My Offers",
                 firstIcon: Icon(Icons.map),
-                press: () {},
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => myOffersPage()),
+                  );
+                },
               ),
               ProfileMenu(
                 text: "Log Out",

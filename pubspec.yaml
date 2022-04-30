@@ -56,7 +56,9 @@ dependencies:
   async_loader: ^0.1.2
   url_launcher: ^6.0.20
   map_location_picker: ^0.0.2
-
+  google_maps_place_picker_mb: ^2.0.0-mb.16
+#  flutter_localizations:
+#    sdk: flutter
 
 
 dev_dependencies:

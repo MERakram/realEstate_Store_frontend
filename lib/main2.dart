@@ -9,39 +9,6 @@ void main() {
 
 }
 
-// class LoadingScreen extends StatefulWidget {
-//   @override
-//   _LoadingScreenState createState() => _LoadingScreenState();
-// }
-//
-// class _LoadingScreenState extends State<LoadingScreen> {
-//
-//   void getLocat() async {
-//     Location location = Location();
-//     location.determinePosition();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             RaisedButton(
-//               onPressed: () {
-//                 //Get the current location
-//                 getLocat();
-//               },
-//               child: Text('Get Location'),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class networking{
   networking(this.url);
   final String url;
@@ -62,7 +29,7 @@ class hello extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      home: Scaffold(backgroundColor: Colors.black,
+      home: Scaffold(backgroundColor: Colors.grey,
         body: Center(
           child: ElevatedButton(
               child: Text("ElevatedButton"),

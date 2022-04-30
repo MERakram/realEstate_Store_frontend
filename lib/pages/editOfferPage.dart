@@ -8,14 +8,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_location_picker/google_map_location_picker.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
-class addOfferPage extends StatefulWidget {
+class editOfferPage extends StatefulWidget {
   @override
-  _addOfferPageState createState() {
-    return _addOfferPageState();
+  _editOfferPageState createState() {
+    return _editOfferPageState();
   }
 }
 
-class _addOfferPageState extends State<addOfferPage> {
+class _editOfferPageState extends State<editOfferPage> {
   String _platformVersion = 'Unknown';
   LocationResult? _pickedLocation;
   LatLng? location;
@@ -56,7 +56,7 @@ class _addOfferPageState extends State<addOfferPage> {
     void determinePosition() async {
       try {
         List<Placemark> placemarks =
-            await placemarkFromCoordinates(latitude!, longitude!);
+        await placemarkFromCoordinates(latitude!, longitude!);
         setState(() {
           country = placemarks[0].country;
           locality = placemarks[0].locality;
@@ -88,7 +88,7 @@ class _addOfferPageState extends State<addOfferPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'ADD OFFER',
+                    'Edit OFFER',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -253,7 +253,7 @@ class _addOfferPageState extends State<addOfferPage> {
                         myLocationButtonEnabled: true,
                         // layersButtonEnabled: true,
                         resultCardConfirmIcon:
-                            Icon(Icons.keyboard_arrow_up_rounded),
+                        Icon(Icons.keyboard_arrow_up_rounded),
                         resultCardPadding: EdgeInsets.all(0),
                         desiredAccuracy: LocationAccuracy.bestForNavigation,
                         countries: ['IN'],

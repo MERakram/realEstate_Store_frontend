@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oued_kniss1/component/Comments.dart';
 import 'package:oued_kniss1/component/homePageComponent/RecomendedCard.dart';
 import 'package:oued_kniss1/component/offerPageComponent/offerMap.dart';
 import 'package:oued_kniss1/component/offerPageComponent/offerimage.dart';
@@ -21,6 +22,7 @@ class _OfferPageState extends State<OfferPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset : false,
         backgroundColor: Colors.grey[300],
         body: ListView(
           children: [
@@ -70,6 +72,28 @@ class _OfferPageState extends State<OfferPage> {
             ),
             offerDescription(),
             offerMap(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7),
+              child: TextField(
+                maxLength: 50,
+                maxLines: 2,
+                decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.send,color: Color(0xFFCDB889),),
+                    contentPadding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFCDB889)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'what do u think?',
+                    fillColor: Colors.grey[200],
+                    filled: true),
+              ),
+            ),
+            Comments(),
           ],
         ),
       ),

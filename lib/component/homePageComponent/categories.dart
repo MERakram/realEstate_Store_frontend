@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class categories extends StatelessWidget {
+  List <String>_list=['appartement', 'house', 'industrial', 'commercial' ,'land'];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

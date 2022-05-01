@@ -334,7 +334,7 @@ class _editOfferPageState extends State<editOfferPage> {
                           child: Container(
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Colors.deepPurple,
+                              color: Color(0xFFCDB889),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(

@@ -164,7 +164,7 @@ class _SmallCardState extends State<SmallCard> {
   }
 
   _loadOffers() async {
-    var response = await Api().getData('/product');
+    var response = await Api().getData('/products');
     if (response.statusCode == 200) {
       setState(() {
         _offers = json.decode(response.body);

@@ -32,18 +32,42 @@ class _myOffersPageState extends State<myOffersPage> {
         backgroundColor: Colors.grey[100],
         body: SafeArea(
           child: Center(
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   children: <Widget>[
                     SizedBox(
                       width: 30,
                     ),
-                    IconButton(
-                        icon: Icon(Icons.arrow_back_ios,size: 30,),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.white),
+                          ),
+                          height: 45,
+                          width: 45,
+                          child: const Center(
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 27,
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
                     Text(
                       'my Offers',
                       style: TextStyle(
@@ -53,7 +77,6 @@ class _myOffersPageState extends State<myOffersPage> {
                     ),
                   ],
                 ),
-
                 GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -67,8 +90,7 @@ class _myOffersPageState extends State<myOffersPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => addOfferPage()),
+                      MaterialPageRoute(builder: (context) => addOfferPage()),
                     );
                   },
                   child: Container(
@@ -78,7 +100,7 @@ class _myOffersPageState extends State<myOffersPage> {
                       child: Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.deepPurple,
+                          color: Color(0xFFCDB889),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Center(

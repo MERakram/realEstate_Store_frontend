@@ -156,10 +156,11 @@ class _RecommendedCardState extends State<RecommendedCard> {
     );
   }
   _loadOffers() async {
-    var response = await Api().getData('/product');
+    var response = await Api().getData('/products');
     if (response.statusCode == 200) {
       setState(() {
         _offers = json.decode(response.body);
+        print(response.body);
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

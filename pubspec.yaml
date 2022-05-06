@@ -58,6 +58,9 @@ dependencies:
   map_location_picker: ^0.0.2
   google_maps_place_picker_mb: ^2.0.0-mb.16
   image_picker: ^0.8.5
+  shared_preferences: ^2.0.15
+#  shared_preferences_manager: ^0.0.6
+#  localstorage: ^4.0.0+1
 #  flutter_localizations:
 #    sdk: flutter
 

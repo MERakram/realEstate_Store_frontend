@@ -13,11 +13,10 @@ class _searchBarState extends State<searchBar> {
     // TODO: implement build
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-
       children: [
         Container(
           margin: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-          width: 310,
+        width: 370,
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search',
@@ -59,25 +58,25 @@ class _searchBarState extends State<searchBar> {
             ],
           ),
         ),
-        Container(
-          child: const Icon(
-            Icons.location_on,
-          ),
-          height: 60,
-          width: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF605F5F).withOpacity(0.2),
-                spreadRadius: 4,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-        ),
+        // Container(
+        //   child: const Icon(
+        //     Icons.location_on,
+        //   ),
+        //   height: 60,
+        //   width: 60,
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     borderRadius: BorderRadius.circular(10),
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: const Color(0xFF605F5F).withOpacity(0.2),
+        //         spreadRadius: 4,
+        //         blurRadius: 7,
+        //         offset: const Offset(0, 3),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

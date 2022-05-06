@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:map_location_picker/generated/l10n.dart' as location_picker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,24 +11,34 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_location_picker/google_map_location_picker.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
+import '../server/api.dart';
+
 class editOfferPage extends StatefulWidget {
+  int id;
+  editOfferPage(this.id);
   @override
   _editOfferPageState createState() {
     return _editOfferPageState();
   }
 }
 
+
 class _editOfferPageState extends State<editOfferPage> {
+  var _offerData;
   String _platformVersion = 'Unknown';
   LocationResult? _pickedLocation;
   LatLng? location;
   double? latitude, longitude;
-  String? country, locality, name, postalcode,street,address;
-  String locationtext = "Select Location";
-
+  String? country, locality, name, street, address;
+  String dropdown1Value = 'for sale',dropdown2Value = 'appartement',locationtext = "Select Location";
+  var user_id = 1,title,price,description,categories = [];
+  String category_id = "2";
+  List<File> multipleImages = [];
+  final ImagePicker _picker = ImagePicker();
   @override
   void initState() {
     super.initState();
+    _loadData();
     initPlatformState();
   }
 
@@ -61,14 +74,12 @@ class _editOfferPageState extends State<editOfferPage> {
           country = placemarks[0].country;
           locality = placemarks[0].locality;
           street = placemarks[0].street;
-          name = placemarks[0].name;
-          postalcode = placemarks[0].postalCode;
           address = "${country} , ${locality} , ${street}";
         });
         print(country);
         print(locality);
         print(name);
-        print(postalcode);
+
       } catch (e) {
         throw e;
       }
@@ -84,36 +95,40 @@ class _editOfferPageState extends State<editOfferPage> {
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
+              child: _offerData==null?Center(child: CircularProgressIndicator(),):Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Edit OFFER',
+                    'ADD OFFER',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
-                    height: 100,
+                    height: 60,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Title',
+                    child: TextFormField(
+                      initialValue:_offerData['title'],
+                      maxLength: 35,
+                      decoration: InputDecoration(
+                          counterText:'',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Title',
+                          fillColor: Colors.grey[200],
+                          filled: true),
+                      onChanged: (value) {
+                        title = value;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -121,22 +136,24 @@ class _editOfferPageState extends State<editOfferPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'description',
+                    child: TextFormField(
+                      initialValue: _offerData['price'],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Price',
+                          fillColor: Colors.grey[200],
+                          filled: true),
+                      onChanged: (value) {
+                        price = value;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -144,45 +161,115 @@ class _editOfferPageState extends State<editOfferPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'for rent/sale',
+                    child: TextFormField(
+                      initialValue: _offerData['description'],
+                      maxLength: 170,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(15, 20, 0, 20),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Description',
+                          fillColor: Colors.grey[200],
+                          filled: true),
+                      onChanged: (value) {
+                        description = value;
+                      },
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Category',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        height: 50,
+                        width: 170,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: DropdownButton<String>(
+                            value: dropdown1Value,
+                            underline: SizedBox(),
+                            isExpanded: true,
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                            elevation: 16,
+                            style: const TextStyle(
+                              color: Color(0xFF5F5F5F),
+                            ),
+                            iconSize: 30,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdown1Value = newValue!;
+                              });
+                            },
+                            items: <String>['for sale', 'for rent']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(value),
+                                  ));
+                            }).toList(),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        height: 50,
+                        width: 170,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: DropdownButton<String>(
+                            value: dropdown2Value,
+                            underline: SizedBox(),
+                            isExpanded: true,
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                            elevation: 16,
+                            style: const TextStyle(
+                              color: Color(0xFF5F5F5F),
+                            ),
+                            iconSize: 30,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdown2Value = newValue!;
+                              });
+                            },
+                            items: <String>[
+                              'appartement',
+                              'house',
+                              'industrial',
+                              'commercial',
+                              'Land'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(value),
+                                  ));
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 10,
@@ -195,21 +282,21 @@ class _editOfferPageState extends State<editOfferPage> {
                         width: 170,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Surface              m²',
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Color(0xFFCDB889)),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Surface              m²',
+                                fillColor: Colors.grey[200],
+                                filled: true),
                           ),
                         ),
                       ),
@@ -221,21 +308,21 @@ class _editOfferPageState extends State<editOfferPage> {
                         width: 170,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Rooms',
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                            ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Color(0xFFCDB889)),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: 'Rooms',
+                                fillColor: Colors.grey[200],
+                                filled: true),
                           ),
                         ),
                       ),
@@ -294,11 +381,49 @@ class _editOfferPageState extends State<editOfferPage> {
                   SizedBox(
                     height: 10,
                   ),
+                  GestureDetector(
+                    onTap: () async {
+                      List<XFile>? picked = await _picker.pickMultiImage(
+                          maxWidth: 50, maxHeight: 50);
+                      setState(() {
+                        multipleImages =
+                            picked!.map((e) => File(e.path)).toList();
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Container(
+                        height: 60,
+                        width: 360,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(0),
+                          child: Center(
+                              child:multipleImages.length != 0? ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: multipleImages.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                  return Image.file(multipleImages[index]);
+                                },):Text('pick images')),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -327,23 +452,26 @@ class _editOfferPageState extends State<editOfferPage> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        width: 200,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFCDB889),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Submit',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                      GestureDetector(
+                        onTap: _patchoffer,
+                        child: Container(
+                          width: 200,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFCDB889),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 ),
                               ),
                             ),
@@ -355,6 +483,32 @@ class _editOfferPageState extends State<editOfferPage> {
                   SizedBox(
                     height: 10,
                   ),
+                  GestureDetector(
+                    onTap: _DeleteOffer,
+                    child: Container(
+                      width: 200,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -363,5 +517,63 @@ class _editOfferPageState extends State<editOfferPage> {
         backgroundColor: Colors.grey[300],
       ),
     );
+  }
+
+  _loadData() async {
+    var response = await Api().getData('/API/products/${widget.id}/');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerData = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
+  }
+  _DeleteOffer() async {
+    var response = await Api().deleteData('/API/products/${widget.id}/');
+    if (response.statusCode == 204) {
+      Navigator.pop(context);
+      print(response.body);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
+  }
+  void _patchoffer() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    var data = new Map<String, String>();
+    data['title'] = title==null?_offerData['title']:title;
+    data['price'] = price==null?_offerData['price']:price;
+    //data['user_id'] = user_id.toString();
+
+    data['description'] = description==null?_offerData['description']:description;
+
+    // data['image'] = _image.path;
+
+    //var response = await Api().postDataWithImage(data, '/offers', _image.path);
+    var response = await Api().patchData(data,'/API/products/${widget.id}/');
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+    } else {
+      _showMsg('Error ${response.statusCode}');
+    }
+  }
+  _showMsg(msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    ));
   }
 }

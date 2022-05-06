@@ -1,10 +1,25 @@
-import 'package:expand_widget/expand_widget.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
-class offerDescription extends StatelessWidget {
-  String text = lorem(paragraphs: 4, words: 70);
+import '../../server/api.dart';
 
+class offerDescription extends StatefulWidget {
+  int id;
+  offerDescription(this.id);
+
+  @override
+  State<offerDescription> createState() => _offerDescriptionState();
+}
+
+class _offerDescriptionState extends State<offerDescription> {
+  var _offerData;
+  String text = lorem(paragraphs: 4, words: 70);
+  @override
+  void initState() {
+    super.initState();
+     _loadData();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,8 +41,8 @@ class offerDescription extends StatelessWidget {
                   const SizedBox(
                     height: 2,
                   ),
-                  const Text(
-                    'house mda5en in cupirtino ',
+                   Text(_offerData==null?'...':
+                     _offerData['title'],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -36,8 +51,9 @@ class offerDescription extends StatelessWidget {
                   const SizedBox(
                     height: 2,
                   ),
-                  const Text(
-                    'house mda5en in cupirtino hello wo ',
+                  Text(
+                    _offerData==null?'...':
+                    _offerData['description'],
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
@@ -46,10 +62,13 @@ class offerDescription extends StatelessWidget {
                   const SizedBox(
                     height: 2,
                   ),
-                  ExpandText(
-                    text,
-                    style: const TextStyle(fontSize: 20),
-                    textAlign: TextAlign.justify,
+                  Text(
+                    _offerData==null?'...':
+                    _offerData['description'],
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
@@ -72,5 +91,19 @@ class offerDescription extends StatelessWidget {
         // height: 300,
       ),
     );
+  }
+
+  _loadData() async {
+    var response = await Api().getData('/API/products/${widget.id}/');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerData = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

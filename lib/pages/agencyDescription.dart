@@ -97,7 +97,7 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
               ],
             ),
             agencyDesc(),
-            RecommendedCard(),
+            RecommendedCard('offerPage'),
           ],
         ),
       ),

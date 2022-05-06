@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/Comments.dart';
-import 'package:oued_kniss1/component/homePageComponent/RecomendedCard.dart';
 import 'package:oued_kniss1/component/offerPageComponent/offerMap.dart';
 import 'package:oued_kniss1/component/offerPageComponent/offerimage.dart';
 import 'package:oued_kniss1/pages/agencyDescription.dart';
 import '../component/offerPageComponent/agencyMiniProfile.dart';
 import '../component/offerPageComponent/offerDescription.dart';
+import '../server/api.dart';
 
 class OfferPage extends StatefulWidget {
+  int id;
+  OfferPage(this.id);
+
+
   @override
   _OfferPageState createState() {
     return _OfferPageState();
@@ -16,6 +21,14 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
+  var _offerData;
+
+  @override
+  void initState() {
+    super.initState();
+    // _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -23,7 +36,8 @@ class _OfferPageState extends State<OfferPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset : false,
-        backgroundColor: Colors.grey[300],
+        // backgroundColor: Colors.grey[300],
+        backgroundColor: const Color(0xFFF5F7F9),
         body: ListView(
           children: [
             Stack(
@@ -41,6 +55,14 @@ class _OfferPageState extends State<OfferPage> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           border: Border.all(color: Colors.white),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF605F5F).withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 1,
+                              offset: Offset(2, 1),
+                            ),
+                          ],
                         ),
                         height: 45,
                         width: 45,
@@ -70,7 +92,7 @@ class _OfferPageState extends State<OfferPage> {
                 );
               },
             ),
-            offerDescription(),
+            offerDescription(widget.id),
             offerMap(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 7),
@@ -98,5 +120,19 @@ class _OfferPageState extends State<OfferPage> {
         ),
       ),
     );
+  }
+  _loadData() async {
+    var response = await Api().getData('/API/products/${widget.id}/');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerData = json.decode(response.body);
+        print(_offerData);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

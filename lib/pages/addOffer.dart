@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_location_picker/google_map_location_picker.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
-import '../api.dart';
+import '../server/api.dart';
 
 class addOfferPage extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _addOfferPageState extends State<addOfferPage> {
   double? latitude, longitude;
   String? country, locality, name, street, address;
   String dropdown1Value = 'for sale',dropdown2Value = 'appartement',locationtext = "Select Location";
-  var user_id = 1,title,price,categories = [];
+  var user_id = 1,title,price,description,categories = [];
   String category_id = "2";
   File? image;
   List<File> multipleImages = [];
@@ -37,7 +37,7 @@ class _addOfferPageState extends State<addOfferPage> {
   void initState() {
     super.initState();
     initPlatformState();
-    // _loadCategories();
+    //_loadCategories();
   }
 
   @override
@@ -122,7 +122,9 @@ class _addOfferPageState extends State<addOfferPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
                     child: TextField(
+                      maxLength: 35,
                       decoration: InputDecoration(
+                          counterText:'',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(12),
@@ -136,6 +138,30 @@ class _addOfferPageState extends State<addOfferPage> {
                           filled: true),
                       onChanged: (value) {
                         title = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Price',
+                          fillColor: Colors.grey[200],
+                          filled: true),
+                      onChanged: (value) {
+                        price = value;
                       },
                     ),
                   ),
@@ -160,6 +186,9 @@ class _addOfferPageState extends State<addOfferPage> {
                           hintText: 'Description',
                           fillColor: Colors.grey[200],
                           filled: true),
+                      onChanged: (value) {
+                        description = value;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -360,33 +389,6 @@ class _addOfferPageState extends State<addOfferPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  // GestureDetector(
-                  //   onTap: pickImage,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.symmetric(
-                  //       horizontal: 25,
-                  //     ),
-                  //     child: Container(
-                  //       height: 60,
-                  //       width: 360,
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.grey[200],
-                  //         border: Border.all(color: Colors.white),
-                  //         borderRadius: BorderRadius.circular(12),
-                  //       ),
-                  //       child: Padding(
-                  //         padding: EdgeInsets.all(0),
-                  //         child: Center(
-                  //             child: image != null
-                  //                 ? Image.file(image!)
-                  //                 : Text('Pick image')),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
                   GestureDetector(
                     onTap: () async {
                       List<XFile>? picked = await _picker.pickMultiImage(
@@ -521,11 +523,13 @@ class _addOfferPageState extends State<addOfferPage> {
     data['title'] = title;
     data['price'] = price;
     //data['user_id'] = user_id.toString();
-    data['category_id'] = category_id.toString();
+
+    data['description'] = description;
+
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().postData(data, '/offer');
+    var response = await Api().postData(data,'/API/products/');
 
     if (response.statusCode == 201) {
       Navigator.pop(context);

@@ -23,7 +23,7 @@ class _pagesFrameState extends State<pagesFrame> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    OfferPage(),
+    // OfferPage(),
     mapSearch(),
     AgencyProfile(),
   ];

@@ -51,10 +51,10 @@ class Comments extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF605F5F).withOpacity(0.2),
-              spreadRadius: 4,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
+              color: const Color(0xFF605F5F).withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 1,
+              offset: Offset(2, 1),
             ),
           ],
         ),

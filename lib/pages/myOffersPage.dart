@@ -77,15 +77,7 @@ class _myOffersPageState extends State<myOffersPage> {
                     ),
                   ],
                 ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => editOfferPage()),
-                      );
-                    },
-                    child: RecommendedCard()),
+                RecommendedCard('editOfferPage'),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(

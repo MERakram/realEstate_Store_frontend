@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:oued_kniss1/component/homePageComponent/categories.dart';
 import 'package:oued_kniss1/component/homePageComponent/dropdownbutton.dart';
 import 'package:oued_kniss1/pages/AgencyProfile.dart';
 import 'package:oued_kniss1/pages/OfferPage.dart';
+import 'package:oued_kniss1/pages/SearchPage.dart';
 import '../component/homePageComponent/RecomendedCard.dart';
 import '../component/homePageComponent/SmallCard.dart';
 
@@ -11,15 +14,25 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-Future<HomePage>_onRefresh()async {
+
+Future<HomePage> _onRefresh() async {
   return HomePage();
 }
+
 class _HomePageState extends State<HomePage> {
+  String? _country;
+  @override
+  void initState() {
+    super.initState();
+    determinePosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color(0xFFF1F1F1),
+        // backgroundColor: const Color(0xFFF1F1F1),
+        backgroundColor: const Color(0xFFF5F7F9),
         body: RefreshIndicator(
           onRefresh: _onRefresh,
           child: CustomScrollView(
@@ -43,7 +56,13 @@ class _HomePageState extends State<HomePage> {
                         margin: const EdgeInsets.only(bottom: 10),
                         height: 30,
                         width: 150,
-                        child: dropdownbutton(),
+                        child: _country == null
+                            ? dropdownbutton()
+                            : Center(
+                                child: Text(
+                                _country.toString(),
+                                style: TextStyle(color: Colors.black),
+                              )),
                         // color: Colors.white,
                       ),
                     ],
@@ -52,26 +71,35 @@ class _HomePageState extends State<HomePage> {
                 toolbarHeight: 65,
                 collapsedHeight: 65,
                 floating: true,
-                backgroundColor: const Color(0xFFF1F1F1),
-                // backgroundColor: Colors.pink,
+                // backgroundColor: const Color(0xFFF1F1F1),
+                backgroundColor: const Color(0xFFF5F7F9),
                 leadingWidth: 70,
-                leading: Container(
-                  child: const Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                  margin: const EdgeInsets.fromLTRB(20, 3, 0, 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6.0),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF605F5F).withOpacity(0.2),
-                        spreadRadius: 4,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchPage()),
+                    );
+                  },
+                  child: Container(
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    margin: const EdgeInsets.fromLTRB(20, 3, 0, 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF605F5F).withOpacity(0.1),
+                          spreadRadius: 2,
+                          blurRadius: 1,
+                          offset: Offset(2, 1),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 actions: <Widget>[
@@ -96,10 +124,10 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF605F5F).withOpacity(0.2),
-                            spreadRadius: 4,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3),
+                            color: const Color(0xFF605F5F).withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: Offset(2, 1),
                           ),
                         ],
                       ),
@@ -114,17 +142,17 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         // searchBar(),
                         categories(),
+                        RecommendedCard('offerPage'),
                         GestureDetector(
-                          child: RecommendedCard(),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OfferPage()),
-                            );
-                          },
+                          child: SmallCard(),
+                          // onTap: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => OfferPage()),
+                          //   );
+                          // },
                         ),
-                        SmallCard(),
                       ],
                     );
                   },
@@ -138,5 +166,20 @@ class _HomePageState extends State<HomePage> {
       ),
       debugShowCheckedModeBanner: false,
     );
+  }
+
+  determinePosition() async {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      setState(() {
+        _country = placemarks[0].locality;
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 }

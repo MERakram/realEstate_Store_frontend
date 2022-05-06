@@ -22,13 +22,14 @@ class categories extends StatelessWidget {
                   borderRadius: BorderRadius.circular(13.0),
                   color: const Color(0xFFFFFFFF),
                   shape: BoxShape.rectangle,
-                    boxShadow: [
+                  boxShadow: [
                     BoxShadow(
-                    color: const Color(0xFF605F5F).withOpacity(0.2),
-                spreadRadius: 4,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),],
+                      color: const Color(0xFF605F5F).withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: Offset(2, 1),
+                    ),
+                  ],
                 ),
                 width: 120,
 

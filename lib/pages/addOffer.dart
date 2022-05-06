@@ -27,7 +27,7 @@ class _addOfferPageState extends State<addOfferPage> {
   double? latitude, longitude;
   String? country, locality, name, street, address;
   String dropdown1Value = 'for sale',dropdown2Value = 'appartement',locationtext = "Select Location";
-  var user_id = 1,title,price,categories = [];
+  var user_id = 1,title,price,description,categories = [];
   String category_id = "2";
   File? image;
   List<File> multipleImages = [];
@@ -145,6 +145,30 @@ class _addOfferPageState extends State<addOfferPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
                     child: TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Price',
+                          fillColor: Colors.grey[200],
+                          filled: true),
+                      onChanged: (value) {
+                        price = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
                       maxLength: 170,
                       maxLines: 3,
                       decoration: InputDecoration(
@@ -160,6 +184,9 @@ class _addOfferPageState extends State<addOfferPage> {
                           hintText: 'Description',
                           fillColor: Colors.grey[200],
                           filled: true),
+                      onChanged: (value) {
+                        description = value;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -521,11 +548,13 @@ class _addOfferPageState extends State<addOfferPage> {
     data['title'] = title;
     data['price'] = price;
     //data['user_id'] = user_id.toString();
-    data['category_id'] = category_id.toString();
+
+    data['description'] = description;
+
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().postData(data, '/offer');
+    var response = await Api().postData(data,'/API/products/');
 
     if (response.statusCode == 201) {
       Navigator.pop(context);

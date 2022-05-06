@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class registerPage extends StatelessWidget {
+import '../api.dart';
+
+class registerPage extends StatefulWidget {
+  @override
+  State<registerPage> createState() => _registerPageState();
+}
+
+class _registerPageState extends State<registerPage> {
+  var username,first_name,last_name,email, password,password_confirmation;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -12,10 +20,6 @@ class registerPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(
-                  Icons.star,
-                  size: 100,
-                ),
                 SizedBox(
                   height: 75,
                 ),
@@ -45,9 +49,81 @@ class registerPage extends StatelessWidget {
                           borderSide: BorderSide(color: Color(0xFFCDB889)),
                           borderRadius:BorderRadius.circular(12),
                         ),
+                        hintText: 'Username',
+                        fillColor: Colors.grey[200],filled: true
+                    ),
+                    onChanged: (value) {
+                      username = value;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: TextField(
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
+                        hintText: 'First name',
+                        fillColor: Colors.grey[200],filled: true
+                    ),
+                    onChanged: (value) {
+                      first_name = value;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: TextField(
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
+                        hintText: 'Last name',
+                        fillColor: Colors.grey[200],filled: true
+                    ),
+                    onChanged: (value) {
+                      last_name = value;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: TextField(
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius:BorderRadius.circular(12),
+                        ),
                         hintText: 'Email',
                         fillColor: Colors.grey[200],filled: true
                     ),
+                    onChanged: (value) {
+                      email = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -69,6 +145,9 @@ class registerPage extends StatelessWidget {
                       hintText: 'Password',
                       fillColor: Colors.grey[200],filled: true,
                     ),
+                    onChanged: (value) {
+                      password = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -87,33 +166,39 @@ class registerPage extends StatelessWidget {
                         borderRadius:BorderRadius.circular(12),
                       ),
 
-                      hintText: 'Password',
+                      hintText: 'Password confirmation',
                       fillColor: Colors.grey[200],filled: true,
                     ),
+                    onChanged: (value) {
+                      password_confirmation = value;
+                    },
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFCDB889),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Register',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFCDB889),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  onTap: _submit,
                 ),
                 SizedBox(
                   height: 10,
@@ -148,5 +233,43 @@ class registerPage extends StatelessWidget {
       ),
       backgroundColor: Colors.grey[300],
     );
+  }
+  void _submit() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    var data = new Map<String, String>();
+    data['username'] = username;
+    data['email'] = email;
+    data['firstname'] = first_name;
+    data['lastname'] = last_name;
+    data['password'] = password;
+
+    // data['password'] = password_confirmation;
+
+    //data['user_id'] = user_id.toString();
+
+    // data['image'] = _image.path;
+
+    //var response = await Api().postDataWithImage(data, '/offers', _image.path);
+    var response = await Api().postData(data, '/auth/users/');
+
+    if (response.statusCode == 201) {
+      Navigator.pop(context);
+    } else {
+      _showMsg('Error ${response.statusCode}');
+    }
+  }
+
+  _showMsg(msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    ));
   }
 }

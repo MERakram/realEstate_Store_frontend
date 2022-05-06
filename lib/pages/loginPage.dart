@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:oued_kniss1/pages/HomePage.dart';
 import 'package:oued_kniss1/pages/pagesFrame.dart';
 import 'package:oued_kniss1/pages/registerPage.dart';
+
+import '../api.dart';
 
 class loginPage extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
+  var username, password;
   @override
   void initState() {
     super.initState();
@@ -60,17 +64,20 @@ class _loginPageState extends State<loginPage> {
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: TextField(
                     decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius:BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFCDB889)),
-                        borderRadius:BorderRadius.circular(12),
-                      ),
-                      hintText: 'Email',
-                      fillColor: Colors.grey[200],filled: true
-                    ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Username',
+                        fillColor: Colors.grey[200],
+                        filled: true),
+                    onChanged: (value) {
+                      username = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -78,20 +85,24 @@ class _loginPageState extends State<loginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(obscureText: true,
+                  child: TextField(
+                    obscureText: true,
                     decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius:BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFCDB889)),
-                          borderRadius:BorderRadius.circular(12),
-                        ),
-
-                        hintText: 'Password',
-                        fillColor: Colors.grey[200],filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFCDB889)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'Password',
+                      fillColor: Colors.grey[200],
+                      filled: true,
                     ),
+                    onChanged: (value) {
+                      password = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -118,13 +129,7 @@ class _loginPageState extends State<loginPage> {
                       ),
                     ),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => pagesFrame()),
-                    );
-                  },
+                  onTap: _submit,
                 ),
                 SizedBox(
                   height: 10,
@@ -162,5 +167,41 @@ class _loginPageState extends State<loginPage> {
       ),
       backgroundColor: Colors.grey[300],
     );
+  }
+
+  void _submit() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    var data = new Map<String, String>();
+    data['username'] = username;
+    data['password'] = password;
+    //data['user_id'] = user_id.toString();
+
+    // data['image'] = _image.path;
+
+    //var response = await Api().postDataWithImage(data, '/offers', _image.path);
+    var response = await Api().postData(data, '/auth/jwt/create/');
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>pagesFrame()),
+      );
+    } else {
+      _showMsg('Error ${response.statusCode}');
+    }
+  }
+
+  _showMsg(msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    ));
   }
 }

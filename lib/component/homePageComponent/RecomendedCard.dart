@@ -156,7 +156,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
     );
   }
   _loadOffers() async {
-    var response = await Api().getData('/products');
+    var response = await Api().getData('/API/products');
     if (response.statusCode == 200) {
       setState(() {
         _offers = json.decode(response.body);

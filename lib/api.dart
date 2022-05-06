@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Api {
-  final String _baseUrl = 'http://10.0.2.2:8000/API';
+  final String _baseUrl = 'http://10.0.2.2:8000';
   //if you are using android studio emulator, change localhost to 10.0.2.2
   var token;
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -9,6 +11,8 @@ import 'package:oued_kniss1/pages/OfferPage.dart';
 import 'package:oued_kniss1/pages/SearchPage.dart';
 import '../component/homePageComponent/RecomendedCard.dart';
 import '../component/homePageComponent/SmallCard.dart';
+import '../server/api.dart';
+import 'CostumerProfile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,11 +24,13 @@ Future<HomePage> _onRefresh() async {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _profileData;
   String? _country;
   @override
   void initState() {
     super.initState();
     determinePosition();
+    _loadData();
   }
 
   @override
@@ -105,10 +111,15 @@ class _HomePageState extends State<HomePage> {
                 actions: <Widget>[
                   GestureDetector(
                     onTap: () {
+                      if(_profileData['account_type']=='Agency'){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => AgencyProfile()),
+                      );}else Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CostumerProfile()),
                       );
                     },
                     child: Container(
@@ -180,6 +191,19 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       throw e;
+    }
+  }
+  _loadData() async {
+    var response = await Api().getData('/auth/users/me/');
+    if (response.statusCode == 200) {
+      setState(() {
+        _profileData = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
     }
   }
 }

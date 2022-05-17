@@ -9,6 +9,7 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
+  String dropdownValue = 'Agency';
   var username, first_name, last_name, email, password, password_confirmation;
   bool _isLoading = false;
   @override
@@ -51,7 +52,7 @@ class _registerPageState extends State<registerPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Username',
-                        fillColor: Colors.grey[200],
+                        fillColor: Colors.grey[100],
                         filled: true),
                     onChanged: (value) {
                       username = value;
@@ -74,7 +75,7 @@ class _registerPageState extends State<registerPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'First name',
-                        fillColor: Colors.grey[200],
+                        fillColor: Colors.grey[100],
                         filled: true),
                     onChanged: (value) {
                       first_name = value;
@@ -97,7 +98,7 @@ class _registerPageState extends State<registerPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Last name',
-                        fillColor: Colors.grey[200],
+                        fillColor: Colors.grey[100],
                         filled: true),
                     onChanged: (value) {
                       last_name = value;
@@ -120,7 +121,7 @@ class _registerPageState extends State<registerPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Email',
-                        fillColor: Colors.grey[200],
+                        fillColor: Colors.grey[100],
                         filled: true),
                     onChanged: (value) {
                       email = value;
@@ -144,7 +145,7 @@ class _registerPageState extends State<registerPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'Password',
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.grey[100],
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -169,7 +170,7 @@ class _registerPageState extends State<registerPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'Password confirmation',
-                      fillColor: Colors.grey[200],
+                      fillColor: Colors.grey[100],
                       filled: true,
                     ),
                     onChanged: (value) {
@@ -180,36 +181,81 @@ class _registerPageState extends State<registerPage> {
                 SizedBox(
                   height: 10,
                 ),
-                GestureDetector(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      padding: EdgeInsets.all(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(width: 1,),
+                    Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFCDB889),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Center(
-                        child: _isLoading == true
-                            ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : Text(
-                                'Register',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
+                      height: 60,
+                      width: 150,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 0),
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Color(0xFF5F5F5F),
+                              fontSize: 17
+                          ),
+                          iconSize: 30,
+                          onChanged: (newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          items: <String>[ 'Agency','Customer']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(value),
+                                ));
+                          }).toList(),
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _submit();
-                    });
-                  },
+
+                    GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        child: Container(
+                          width: 150,
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Color(0xFFCDB889),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: _isLoading == true
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : const Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _submit();
+                        });
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -275,6 +321,7 @@ class _registerPageState extends State<registerPage> {
 
     var data = new Map<String, String>();
     data['username'] = username;
+    data['account_type']=dropdownValue;
     data['email'] = email;
     data['firstname'] = first_name;
     data['lastname'] = last_name;

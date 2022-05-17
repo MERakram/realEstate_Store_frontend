@@ -93,7 +93,7 @@ class _OfferPageState extends State<OfferPage> {
               },
             ),
             offerDescription(widget.id),
-            offerMap(),
+            // offerMap(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 7),
               child: TextField(

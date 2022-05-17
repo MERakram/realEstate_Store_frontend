@@ -4,20 +4,42 @@ import 'dart:convert';
 import '../../server/api.dart';
 
 class offerMap extends StatefulWidget {
-  // double id;
-  // offerMap(this.id);
-  static const Marker _offermarker = Marker(
-      markerId: MarkerId('_offermarker'),
-      infoWindow: InfoWindow(title: 'offer'),
-      icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(29.9773, 31.1325));
+  int id;
+  offerMap(this.id);
+  // final Marker _offermarker = Marker(
+  //   markerId: MarkerId('_offermarker'),
+  //   infoWindow: InfoWindow(title: 'offer'),
+  //   icon: BitmapDescriptor.defaultMarker,
+  //   position: LatLng(Lat, Long));
 
   @override
   State<offerMap> createState() => _offerMapState();
 }
 
 class _offerMapState extends State<offerMap> {
+  List<Marker> allMarkers = [];
   var _offerData;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+    for (int i=0; i < _offerData.length; i++) {
+      allMarkers.add(
+        Marker(
+          markerId: MarkerId(_offerData['id']),
+          draggable: false,
+          infoWindow: InfoWindow(
+            title: _offerData['title'],
+            snippet: _offerData['Location'],
+          ),
+          position: LatLng(_offerData['Lat'], _offerData['Long'])
+        ),
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,9 +48,9 @@ class _offerMapState extends State<offerMap> {
         borderRadius: BorderRadius.circular(25),
         child: Container(
           child: GoogleMap(
-            markers: {offerMap._offermarker},
+            markers: Set.from(allMarkers),
             initialCameraPosition:
-                const CameraPosition(target: LatLng(29.9773, 31.1325), zoom: 15),
+                CameraPosition(target: LatLng(37.42200058560960000000, -122.08400286734100000000), zoom: 15),
             zoomGesturesEnabled: true,
           ),
           decoration: BoxDecoration(
@@ -47,18 +69,18 @@ class _offerMapState extends State<offerMap> {
       ),
     );
   }
-  // _loadData() async {
-  //   var response = await Api().getData('/API/products/${widget.id}/');
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       _offerData = json.decode(response.body);
-  //       print(_offerData);
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text(
-  //           'Error ' + response.statusCode.toString() + ': ' + response.body),
-  //     ));
-  //   }
-  // }
+  _loadData() async {
+    var response = await Api().getData('/API/products/${widget.id}/');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerData = json.decode(response.body);
+        print(_offerData);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
+  }
 }

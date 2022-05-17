@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
@@ -26,9 +27,9 @@ class _addOfferPageState extends State<addOfferPage> {
   LatLng? location;
   double? latitude, longitude;
   String? country, locality, name, street, address;
-  String dropdown1Value = 'for sale',dropdown2Value = 'appartement',locationtext = "Select Location";
-  var user_id = 1,title,price,description,categories = [];
-  String category_id = "2";
+  String dropdown1Value = 'for_sale',dropdown2Value = 'Appartement',locationtext = "Select Location";
+  var user_id = 1,title,price,description,categories = [],rooms,surface,latStr,longStr;
+  late String category_id = "2";
   File? image;
   List<File> multipleImages = [];
   final ImagePicker _picker = ImagePicker();
@@ -221,7 +222,7 @@ class _addOfferPageState extends State<addOfferPage> {
                                 dropdown1Value = newValue!;
                               });
                             },
-                            items: <String>['for sale', 'for rent']
+                            items: <String>['for_sale', 'for_rent']
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                   value: value,
@@ -261,10 +262,10 @@ class _addOfferPageState extends State<addOfferPage> {
                               });
                             },
                             items: <String>[
-                              'appartement',
-                              'house',
-                              'industrial',
-                              'commercial',
+                              'Appartement',
+                              'House',
+                              'Industrial',
+                              'Commercial',
                               'Land'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
@@ -305,6 +306,9 @@ class _addOfferPageState extends State<addOfferPage> {
                                 hintText: 'Surface              m²',
                                 fillColor: Colors.grey[200],
                                 filled: true),
+                            onChanged: (value) {
+                              surface = value;
+                            },
                           ),
                         ),
                       ),
@@ -331,6 +335,9 @@ class _addOfferPageState extends State<addOfferPage> {
                                 hintText: 'Rooms',
                                 fillColor: Colors.grey[200],
                                 filled: true),
+                            onChanged: (value) {
+                              rooms = value;
+                            },
                           ),
                         ),
                       ),
@@ -360,7 +367,9 @@ class _addOfferPageState extends State<addOfferPage> {
                         _pickedLocation = result;
                         location = result?.latLng;
                         latitude = location?.latitude;
+                        latStr=latitude.toString();
                         longitude = location?.longitude;
+                        longStr=longitude.toString();
                         determinePosition();
                       });
                     },
@@ -525,9 +534,16 @@ class _addOfferPageState extends State<addOfferPage> {
     //data['user_id'] = user_id.toString();
 
     data['description'] = description;
-
+    data['whatfor'] = dropdown1Value;
+    data['categories'] = dropdown2Value;
+    data['size'] = surface;
+    data['rooms'] = rooms;
+    data['Location'] = address.toString();
+    data['Lat'] =latStr;
+    data['Long'] = longStr;
     // data['image'] = _image.path;
-
+print(latStr);
+print(longStr);
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
     var response = await Api().postData(data,'/API/products/');
 

@@ -86,6 +86,7 @@ Future init()async{
                     child: TextField(
                       controller: usernamefieldText,
                       decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.account_circle_outlined),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(12),
@@ -95,7 +96,7 @@ Future init()async{
                             borderRadius: BorderRadius.circular(12),
                           ),
                           hintText: 'Username',
-                          fillColor: Colors.grey[200],
+                          fillColor: Colors.grey[100],
                           filled: true),
                       onChanged: (value) {
                         username = value;
@@ -111,13 +112,14 @@ Future init()async{
                       controller: passwordfieldText,
                       obscureText: obscurepass,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
                           icon: Icon(
                             // Based on passwordVisible state choose the icon
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Theme.of(context).primaryColorDark,
+                            color: Colors.black,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
@@ -136,7 +138,7 @@ Future init()async{
                           borderRadius: BorderRadius.circular(12),
                         ),
                         hintText: 'Password',
-                        fillColor: Colors.grey[200],
+                        fillColor: Colors.grey[100],
                         filled: true,
                       ),
                       onChanged: (value) {

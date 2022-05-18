@@ -13,7 +13,6 @@ class OfferPage extends StatefulWidget {
   int id;
   OfferPage(this.id);
 
-
   @override
   _OfferPageState createState() {
     return _OfferPageState();
@@ -21,7 +20,8 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
-  var _offerData;var comment;
+  var _offerData;
+  var comment;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _OfferPageState extends State<OfferPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         // backgroundColor: Colors.grey[300],
         backgroundColor: const Color(0xFFF5F7F9),
         body: ListView(
@@ -93,16 +93,22 @@ class _OfferPageState extends State<OfferPage> {
               },
             ),
             offerDescription(widget.id),
-             offerMap(widget.id),
+            offerMap(widget.id),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 7),
               child: TextField(
                 maxLength: 50,
                 maxLines: 2,
                 decoration: InputDecoration(
-                    counterText:'',
-                    suffixIcon: GestureDetector(onTap:(){_submit;},
-                        child: Icon(Icons.send,color: Color(0xFFCDB889),)),
+                    counterText: '',
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          _submit();
+                        },
+                        child: Icon(
+                          Icons.send,
+                          color: Color(0xFFCDB889),
+                        )),
                     contentPadding: EdgeInsets.fromLTRB(15, 10, 0, 10),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -126,6 +132,7 @@ class _OfferPageState extends State<OfferPage> {
       ),
     );
   }
+
   _loadData() async {
     var response = await Api().getData('/API/products/${widget.id}/');
     if (response.statusCode == 200) {
@@ -140,23 +147,17 @@ class _OfferPageState extends State<OfferPage> {
       ));
     }
   }
+
   void _submit() async {
     var data = new Map<String, String>();
     data['name'] = widget.id.toString();
     data['description'] = comment;
 
-    var response = await Api().postData(data,'/API/products/${widget.id}/reviews/');
+    var response =
+        await Api().postData(data, '/API/products/${widget.id}/reviews/');
 
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('comment sent'),
-        action: SnackBarAction(
-          label: 'Close',
-          onPressed: () {
-            // Some code to undo the change!
-          },
-        ),
-      ),);
+    if (response.statusCode == 201) {
+      Navigator.pop(context);
     } else {
       _showMsg('Error ${response.statusCode}');
     }

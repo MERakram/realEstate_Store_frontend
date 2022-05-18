@@ -53,29 +53,36 @@ class _CommentsState extends State<Comments> {
                   const SizedBox(
                     height: 2,
                   ),
-                  ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
-                    physics: const BouncingScrollPhysics(parent: null),
-                    shrinkWrap: true,
-                    itemCount: _offerReviews.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_offerReviews[index]['name'], style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),),
-                          Center(
-                            child: Text(
-                              _offerReviews[index]['description'],
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                  _offerReviews == null
+                      ? Text('no comments yet be the first')
+                      : ListView.builder(
+                          padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
+                          physics: const BouncingScrollPhysics(parent: null),
+                          shrinkWrap: true,
+                          itemCount: _offerReviews.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _offerReviews[index]['name'],
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Center(
+                                  child: Text(
+                                    _offerReviews[index]['description'],
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

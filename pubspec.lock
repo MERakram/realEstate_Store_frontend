@@ -460,9 +460,11 @@ packages:
   map_location_picker:
     dependency: "direct main"
     description:
-      name: map_location_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: ea75548e44bfb032debf223dde97f712565ba7fb
+      url: "https://github.com/MERakram/map_location_picker"
+    source: git
     version: "0.0.2"
   matcher:
     dependency: transitive

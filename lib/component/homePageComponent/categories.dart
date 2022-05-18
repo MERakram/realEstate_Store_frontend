@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 
 class categories extends StatelessWidget {
-  List <String>_list=['appartement', 'house', 'industrial', 'commercial' ,'land'];
+  final List<String> _list = [
+    'appartement',
+    'house',
+    'industrial',
+    'commercial',
+    'land'
+  ];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return SizedBox(
         height: 70,
         child: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(12, 0,20 , 0),
+          padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
           physics: const BouncingScrollPhysics(parent: null),
           shrinkWrap: true,
-          itemCount: 10,
+          itemCount: _list.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(
-                child:const Center(child: Text("category",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),),
+              child: Container(padding:const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child:  Center(
+                  child: Text(
+                    _list[index],
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(13.0),
                   color: const Color(0xFFFFFFFF),
@@ -31,7 +42,6 @@ class categories extends StatelessWidget {
                     ),
                   ],
                 ),
-                width: 120,
 
               ),
             );

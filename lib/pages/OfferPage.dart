@@ -21,12 +21,12 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
-  var _offerData;
+  var _offerData;var _offerReviews;
 
   @override
   void initState() {
     super.initState();
-    // _loadData();
+    //_loadData();
   }
 
   @override
@@ -93,13 +93,14 @@ class _OfferPageState extends State<OfferPage> {
               },
             ),
             offerDescription(widget.id),
-            // offerMap(),
+             offerMap(widget.id),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 7),
               child: TextField(
                 maxLength: 50,
                 maxLines: 2,
                 decoration: InputDecoration(
+                    counterText:'',
                     suffixIcon: Icon(Icons.send,color: Color(0xFFCDB889),),
                     contentPadding: EdgeInsets.fromLTRB(15, 10, 0, 10),
                     enabledBorder: OutlineInputBorder(
@@ -111,11 +112,11 @@ class _OfferPageState extends State<OfferPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     hintText: 'what do u think?',
-                    fillColor: Colors.grey[200],
+                    fillColor: Colors.grey[100],
                     filled: true),
               ),
             ),
-            Comments(),
+            Comments(widget.id),
           ],
         ),
       ),
@@ -127,6 +128,20 @@ class _OfferPageState extends State<OfferPage> {
       setState(() {
         _offerData = json.decode(response.body);
         print(_offerData);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
+  }
+  _loadComments() async {
+    var response = await Api().getData('/API/products/${widget.id}/reviews');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerReviews = json.decode(response.body);
+        print(_offerReviews);
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

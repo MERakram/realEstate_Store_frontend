@@ -41,6 +41,11 @@ class _offerDescriptionState extends State<offerDescription> {
                   const SizedBox(
                     height: 2,
                   ),
+                  Text('Title:',style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFFCDB889),
+                  ),),
                    Text(_offerData==null?'...':
                      _offerData['title'],
                     style: TextStyle(
@@ -51,20 +56,30 @@ class _offerDescriptionState extends State<offerDescription> {
                   const SizedBox(
                     height: 2,
                   ),
+                  Text('Location:',style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Color(0xFFCDB889),
+      ),),
                   Text(
                     _offerData==null?'...':
-                    _offerData['description'],
+                    _offerData['Location'],
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                   const SizedBox(
                     height: 2,
                   ),
+                  Text('Descreption:',style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFFCDB889),
+                  ),),
                   Text(
                     _offerData==null?'...':
-                    _offerData['description'],
+                    '${_offerData['description']}',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,

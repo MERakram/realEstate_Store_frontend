@@ -83,7 +83,7 @@ class _mapSearchState extends State<mapSearch> {
         CustomInfoWindow(
           controller: _customInfoWindowController,
           height: 150,
-          width: 350,
+          width: 380,
           offset: 35,
         )
       ],
@@ -127,7 +127,7 @@ class _mapSearchState extends State<mapSearch> {
                               flex: 10,
                               child: SizedBox(
                                 child: SmallHouseImage(),
-                                width: 130,
+                                width: 100,
                               ),
                             ),
                             Flexible(
@@ -143,7 +143,6 @@ class _mapSearchState extends State<mapSearch> {
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    ForRent(),
                                     const SizedBox(
                                       height: 2,
                                     ),
@@ -157,31 +156,19 @@ class _mapSearchState extends State<mapSearch> {
                                     const SizedBox(
                                       height: 2,
                                     ),
-                                    Text(
-                                      // _offers[index]['description'],
-                                      'hello',
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
                                     Container(
                                       child: Row(
-                                        children: const [
+                                        children:  [
                                           CircleAvatar(
-                                            backgroundColor: Colors.blue,
-                                            radius: 13,
-                                            child: Icon(Icons.add),
+                                            backgroundColor: Color(0x34CDB889),
+                                            radius: 15,
+                                            child: Icon(Icons.bed_rounded,color: Colors.black,),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
                                           Text(
-                                            'FO',
+                                            _offerData[i]['rooms'],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -189,15 +176,15 @@ class _mapSearchState extends State<mapSearch> {
                                             width: 5,
                                           ),
                                           CircleAvatar(
-                                            backgroundColor: Colors.blue,
-                                            radius: 13,
-                                            child: Icon(Icons.add),
+                                            backgroundColor: Color(0x34CDB889),
+                                            radius: 15,
+                                            child: Icon(Icons.camera),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
                                           Text(
-                                            'FO',
+                                            _offerData[i]['size'],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),

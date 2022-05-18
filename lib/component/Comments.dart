@@ -1,9 +1,25 @@
-import 'package:expand_widget/expand_widget.dart';
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lorem/flutter_lorem.dart';
 
-class Comments extends StatelessWidget {
-  String text = lorem(paragraphs: 7, words: 60);
+import '../server/api.dart';
+
+class Comments extends StatefulWidget {
+  int id;
+  Comments(this.id);
+  @override
+  State<Comments> createState() => _CommentsState();
+}
+
+class _CommentsState extends State<Comments> {
+  var _offerReviews;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadComments();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +34,8 @@ class Comments extends StatelessWidget {
             ),
             Padding(
               padding:
-              // EdgeInsets.fromLTRB(left, top, right, bottom)
-              const EdgeInsets.fromLTRB(18, 1, 12, 5),
+                  // EdgeInsets.fromLTRB(left, top, right, bottom)
+                  const EdgeInsets.fromLTRB(18, 1, 12, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -31,15 +47,34 @@ class Comments extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
+                      color: Color(0xFFCDB889),
                     ),
                   ),
                   const SizedBox(
                     height: 2,
                   ),
-                  ExpandText(
-                    text,
-                    style: const TextStyle(fontSize: 20),
-                    textAlign: TextAlign.justify,
+                  ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
+                    physics: const BouncingScrollPhysics(parent: null),
+                    shrinkWrap: true,
+                    itemCount: _offerReviews.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(_offerReviews[index]['name'], style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),),
+                          Center(
+                            child: Text(
+                              _offerReviews[index]['description'],
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -62,5 +97,20 @@ class Comments extends StatelessWidget {
         // height: 300,
       ),
     );
+  }
+
+  _loadComments() async {
+    var response = await Api().getData('/API/products/${widget.id}/reviews');
+    if (response.statusCode == 200) {
+      setState(() {
+        _offerReviews = json.decode(response.body);
+        print(_offerReviews);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

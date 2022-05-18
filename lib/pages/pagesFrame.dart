@@ -46,7 +46,7 @@ class _pagesFrameState extends State<pagesFrame> {
             //     timeInSecForIosWeb: 2,
             //     textColor: Colors.white,
             //     backgroundColor: Colors.black);
-            showToast("press again to exit");
+            showToast("press again to exit", gravity: Toast.bottom);
             return false;
           } else {
             SystemNavigator.pop();

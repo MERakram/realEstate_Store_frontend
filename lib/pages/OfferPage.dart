@@ -21,7 +21,7 @@ class OfferPage extends StatefulWidget {
 }
 
 class _OfferPageState extends State<OfferPage> {
-  var _offerData;var _offerReviews;
+  var _offerData;var comment;
 
   @override
   void initState() {
@@ -101,7 +101,8 @@ class _OfferPageState extends State<OfferPage> {
                 maxLines: 2,
                 decoration: InputDecoration(
                     counterText:'',
-                    suffixIcon: Icon(Icons.send,color: Color(0xFFCDB889),),
+                    suffixIcon: GestureDetector(onTap:(){_submit;},
+                        child: Icon(Icons.send,color: Color(0xFFCDB889),)),
                     contentPadding: EdgeInsets.fromLTRB(15, 10, 0, 10),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -114,6 +115,9 @@ class _OfferPageState extends State<OfferPage> {
                     hintText: 'what do u think?',
                     fillColor: Colors.grey[100],
                     filled: true),
+                onChanged: (value) {
+                  comment = value;
+                },
               ),
             ),
             Comments(widget.id),
@@ -136,18 +140,37 @@ class _OfferPageState extends State<OfferPage> {
       ));
     }
   }
-  _loadComments() async {
-    var response = await Api().getData('/API/products/${widget.id}/reviews');
+  void _submit() async {
+    var data = new Map<String, String>();
+    data['name'] = widget.id.toString();
+    data['description'] = comment;
+
+    var response = await Api().postData(data,'/API/products/${widget.id}/reviews/');
+
     if (response.statusCode == 200) {
-      setState(() {
-        _offerReviews = json.decode(response.body);
-        print(_offerReviews);
-      });
-    } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Error ' + response.statusCode.toString() + ': ' + response.body),
-      ));
+        content: Text('comment sent'),
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () {
+            // Some code to undo the change!
+          },
+        ),
+      ),);
+    } else {
+      _showMsg('Error ${response.statusCode}');
     }
+  }
+
+  _showMsg(msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    ));
   }
 }

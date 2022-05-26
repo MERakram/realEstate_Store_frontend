@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../server/SharedPreferencesManager.dart';
 import '../server/api.dart';
 import 'editAccountPage.dart';
+import 'loginPage.dart';
 import 'myOffersPage.dart';
 
 class CostumerProfile extends StatefulWidget {
@@ -90,7 +91,11 @@ class _CostumerProfileState extends State<CostumerProfile> {
                 children: [
                   CircleAvatar(
                     radius: 70,
-                    backgroundImage: AssetImage("assets/images/home.jpg"),
+                    backgroundImage: _profileData == null
+                        ? NetworkImage(
+                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png')
+                        : NetworkImage(_profileData['avatar']),
+                    backgroundColor: Colors.transparent,
                   ),
                   Positioned(
                     bottom: 0,
@@ -136,7 +141,11 @@ class _CostumerProfileState extends State<CostumerProfile> {
                 firstIcon: Icon(Icons.logout),
                 press: () async {
                   await SharedPreferencesManager().clearAuthToken();
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => loginPage()),
+                  );
                 },
               ),
             ],
@@ -146,7 +155,7 @@ class _CostumerProfileState extends State<CostumerProfile> {
     );
   }
   _loadData() async {
-    var response = await Api().getData('/auth/users/me/');
+    var response = await Api().getData('/auth/users/me/','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _profileData = json.decode(response.body);

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
@@ -15,6 +14,8 @@ import 'package:map_location_picker/map_location_picker.dart';
 import '../server/api.dart';
 
 class addOfferPage extends StatefulWidget {
+  int id;
+  addOfferPage(this.id);
   @override
   _addOfferPageState createState() {
     return _addOfferPageState();
@@ -27,10 +28,10 @@ class _addOfferPageState extends State<addOfferPage> {
   LatLng? location;
   double? latitude, longitude;
   String? country, locality, name, street, address;
-  String dropdown1Value = 'for_sale',dropdown2Value = 'Appartement',locationtext = "Select Location";
+  String dropdown1Value = 'for sale',dropdown2Value = 'Appartement',locationtext = "Select Location";
   var user_id = 1,title,price,description,categories = [],rooms,surface,latStr,longStr;
   late String category_id = "2";
-  File? image;
+  File? image;var filePath;
   List<File> multipleImages = [];
   final ImagePicker _picker = ImagePicker();
 
@@ -103,415 +104,430 @@ class _addOfferPageState extends State<addOfferPage> {
       localizationsDelegates: const [
         location_picker.S.delegate,
       ],
-      home: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'ADD OFFER',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+      home: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'ADD OFFER',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
-                      maxLength: 35,
-                      decoration: InputDecoration(
-                          counterText:'',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFCDB889)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Title',
-                          fillColor: Colors.grey[200],
-                          filled: true),
-                      onChanged: (value) {
-                        title = value;
-                      },
+                    SizedBox(
+                      height: 100,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFCDB889)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Price',
-                          fillColor: Colors.grey[200],
-                          filled: true),
-                      onChanged: (value) {
-                        price = value;
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
-                      maxLength: 170,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(15, 20, 0, 20),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFCDB889)),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          hintText: 'Description',
-                          fillColor: Colors.grey[200],
-                          filled: true),
-                      onChanged: (value) {
-                        description = value;
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        height: 50,
-                        width: 170,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: DropdownButton<String>(
-                            value: dropdown1Value,
-                            underline: SizedBox(),
-                            isExpanded: true,
-                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                            elevation: 16,
-                            style: const TextStyle(
-                              color: Color(0xFF5F5F5F),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        maxLength: 35,
+                        decoration: InputDecoration(
+                            counterText:'',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            iconSize: 30,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdown1Value = newValue!;
-                              });
-                            },
-                            items: <String>['for_sale', 'for_rent']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Text(value),
-                                  ));
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        height: 50,
-                        width: 170,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: DropdownButton<String>(
-                            value: dropdown2Value,
-                            underline: SizedBox(),
-                            isExpanded: true,
-                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                            elevation: 16,
-                            style: const TextStyle(
-                              color: Color(0xFF5F5F5F),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFCDB889)),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            iconSize: 30,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdown2Value = newValue!;
-                              });
-                            },
-                            items: <String>[
-                              'Appartement',
-                              'House',
-                              'Industrial',
-                              'Commercial',
-                              'Land'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Text(value),
-                                  ));
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 170,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCDB889)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                hintText: 'Surface              m²',
-                                fillColor: Colors.grey[200],
-                                filled: true),
-                            onChanged: (value) {
-                              surface = value;
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: 170,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCDB889)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                hintText: 'Rooms',
-                                fillColor: Colors.grey[200],
-                                filled: true),
-                            onChanged: (value) {
-                              rooms = value;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      LocationResult? result = await showLocationPicker(
-                        context,
-                        'AIzaSyBQByMa90Ng0VQw-4WsVazBWK7831DsIyI',
-                        initialCenter: const LatLng(31.1975844, 29.9598339),
-                        myLocationButtonEnabled: true,
-                        // layersButtonEnabled: true,
-                        resultCardConfirmIcon:
-                            Icon(Icons.keyboard_arrow_up_rounded),
-                        resultCardPadding: EdgeInsets.all(0),
-                        desiredAccuracy: LocationAccuracy.bestForNavigation,
-                        countries: ['IN'],
-                        language: 'en',
-                        // requiredGPS: true,
-                      );
-                      // debugPrint("result = $result");
-                      setState(() {
-                        _pickedLocation = result;
-                        location = result?.latLng;
-                        latitude = location?.latitude;
-                        latStr=latitude.toString();
-                        longitude = location?.longitude;
-                        longStr=longitude.toString();
-                        determinePosition();
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                      ),
-                      child: Container(
-                        height: 60,
-                        width: 360,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Center(
-                              child: Text(country.toString() == 'null'
-                                  ? locationtext
-                                  : address.toString())),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      List<XFile>? picked = await _picker.pickMultiImage(
-                          maxWidth: 50, maxHeight: 50);
-                      setState(() {
-                        multipleImages =
-                            picked!.map((e) => File(e.path)).toList();
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                      ),
-                      child: Container(
-                        height: 60,
-                        width: 360,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Center(
-                              child:multipleImages.length != 0? ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: multipleImages.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Image.file(multipleImages[index]);
-                                  },):Text('pick images')),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
+                            hintText: 'Title',
+                            fillColor: Colors.grey[200],
+                            filled: true),
+                        onChanged: (value) {
+                          title = value;
                         },
-                        child: Container(
-                          width: 200,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        maxLength: 9,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            counterText:'',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFCDB889)),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            hintText: 'Price',
+                            fillColor: Colors.grey[200],
+                            filled: true),
+                        onChanged: (value) {
+                          price = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        maxLength: 170,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(15, 20, 0, 20),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFCDB889)),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            hintText: 'Description',
+                            fillColor: Colors.grey[200],
+                            filled: true),
+                        onChanged: (value) {
+                          description = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          height: 50,
+                          width: 170,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 25),
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: DropdownButton<String>(
+                              value: dropdown1Value,
+                              underline: SizedBox(),
+                              isExpanded: true,
+                              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                              elevation: 16,
+                              style: const TextStyle(
+                                color: Color(0xFF5F5F5F),
                               ),
-                              child: Center(
-                                child: Text(
-                                  'Cancel',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                              iconSize: 30,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdown1Value = newValue!;
+                                });
+                              },
+                              items: <String>['for sale', 'for rent']
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text(value),
+                                    ));
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          height: 50,
+                          width: 170,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: DropdownButton<String>(
+                              value: dropdown2Value,
+                              underline: SizedBox(),
+                              isExpanded: true,
+                              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                              elevation: 16,
+                              style: const TextStyle(
+                                color: Color(0xFF5F5F5F),
+                              ),
+                              iconSize: 30,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdown2Value = newValue!;
+                                });
+                              },
+                              items: <String>[
+                                'Appartement',
+                                'House',
+                                'Industrial',
+                                'Commercial',
+                                'Land'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text(value),
+                                    ));
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 170,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: TextField(
+                              maxLength: 6,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  counterText:'',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Surface              m²',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                surface = value;
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          height: 50,
+                          width: 170,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: TextField(
+                              maxLength: 2,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  counterText:'',
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Rooms',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                rooms = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        LocationResult? result = await showLocationPicker(
+                          context,
+                          'AIzaSyBQByMa90Ng0VQw-4WsVazBWK7831DsIyI',
+                          initialCenter: const LatLng(31.1975844, 29.9598339),
+                          myLocationButtonEnabled: true,
+                          // layersButtonEnabled: true,
+                          resultCardConfirmIcon:
+                              Icon(Icons.keyboard_arrow_up_rounded),
+                          resultCardPadding: EdgeInsets.all(0),
+                          desiredAccuracy: LocationAccuracy.bestForNavigation,
+                          countries: ['IN'],
+                          language: 'en',
+                          // requiredGPS: true,
+                        );
+                        // debugPrint("result = $result");
+                        setState(() {
+                          _pickedLocation = result;
+                          location = result?.latLng;
+                          latitude = location?.latitude;
+                          latStr=latitude.toString();
+                          longitude = location?.longitude;
+                          longStr=longitude.toString();
+                          determinePosition();
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 25,
+                        ),
+                        child: Container(
+                          height: 60,
+                          width: 360,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Center(
+                                child: Text(country.toString() == 'null'
+                                    ? locationtext
+                                    : address.toString())),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        List<XFile>? picked = await _picker.pickMultiImage(
+                          );
+                        setState(() {
+                          multipleImages =
+                              picked!.map((e) => File(e.path)).toList();
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 25,
+                        ),
+                        child: Container(
+                          height: 60,
+                          width: 360,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Center(
+                                child:multipleImages.length != 0? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: multipleImages.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Image.file(multipleImages[index]);
+                                    },):Text('pick images')),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: 200,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 25),
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: _submit,
-                        child: Container(
-                          width: 200,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 25),
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFCDB889),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: _submit,
+                          child: Container(
+                            width: 200,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 25),
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFCDB889),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          backgroundColor: Colors.grey[300],
         ),
-        backgroundColor: Colors.grey[300],
       ),
     );
   }
 
   _loadCategories() async {
-    var response = await Api().getData('/category');
+    var response = await Api().getData('/category','JWT');
     if (response.statusCode == 200) {
       setState(() {
         categories = json.decode(response.body);
@@ -532,9 +548,8 @@ class _addOfferPageState extends State<addOfferPage> {
     data['title'] = title;
     data['price'] = price;
     //data['user_id'] = user_id.toString();
-
     data['description'] = description;
-    data['whatfor'] = dropdown1Value;
+    data['whatfor'] = dropdown1Value=='for sale'?'for_sale':'for_rent';
     data['categories'] = dropdown2Value;
     data['size'] = surface;
     data['rooms'] = rooms;
@@ -542,10 +557,7 @@ class _addOfferPageState extends State<addOfferPage> {
     data['Lat'] =latStr;
     data['Long'] = longStr;
     // data['image'] = _image.path;
-print(latStr);
-print(longStr);
-    //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().postData(data,'/API/products/');
+    var response = await Api().postDataWithImages(data, '/API/products/', multipleImages,'JWT','uploaded_images');
 
     if (response.statusCode == 201) {
       Navigator.pop(context);

@@ -57,7 +57,7 @@ class _SmallCardState extends State<SmallCard> {
                           Flexible(
                             flex: 10,
                             child: SizedBox(
-                              child: SmallHouseImage(),
+                              child: SmallHouseImage(_offers[index]['id']),
                               width: 130,
                             ),
                           ),
@@ -105,7 +105,7 @@ class _SmallCardState extends State<SmallCard> {
                                     child: Row(
                                       children:  [
                                         CircleAvatar(
-                                          backgroundColor: Color(0x34CDB889),
+                                          backgroundColor: Colors.white,
                                           radius: 15,
                                           child: Icon(Icons.bed_rounded,color: Colors.black,),
                                         ),
@@ -114,16 +114,19 @@ class _SmallCardState extends State<SmallCard> {
                                         ),
                                         Text(
                                           _offers[index]['rooms'],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,fontSize: 18),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
-                                        CircleAvatar(
-                                          backgroundColor: Color(0x34CDB889),
-                                          radius: 15,
-                                          child: Icon(Icons.camera),
+                                        const CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          radius: 11,
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/images/area.png'),
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 5,
@@ -131,7 +134,7 @@ class _SmallCardState extends State<SmallCard> {
                                         Text(
                                           _offers[index]['size'],
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,fontSize: 18),
                                         ),
 
                                       ],
@@ -182,7 +185,7 @@ class _SmallCardState extends State<SmallCard> {
     setState(() {
       _isLoading = true;
     });
-    var response = await Api().getData('/API/products');
+    var response = await Api().getData('/API/products','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _isLoading = false;

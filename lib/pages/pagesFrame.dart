@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:oued_kniss1/pages/AgencyProfile.dart';
 import 'package:oued_kniss1/pages/HomePage.dart';
-import 'package:toast/toast.dart';
 
 import '../main3.dart';
 import 'OfferPage.dart';
@@ -39,14 +39,14 @@ class _pagesFrameState extends State<pagesFrame> {
               lastPressed == null || now.difference(lastPressed!) > maxDuration;
           if (isWarning) {
             lastPressed = DateTime.now();
-            // Fluttertoast.showToast(
-            //     msg: "Press again to exit", // message
-            //     toastLength: Toast.LENGTH_SHORT, // length
-            //     gravity: ToastGravity.CENTER, // location
-            //     timeInSecForIosWeb: 2,
-            //     textColor: Colors.white,
-            //     backgroundColor: Colors.black);
-            showToast("press again to exit", gravity: Toast.bottom);
+            Fluttertoast.showToast(
+                msg: "Press again to exit", // message
+                toastLength: Toast.LENGTH_SHORT, // length
+                gravity: ToastGravity.CENTER, // location
+                timeInSecForIosWeb: 2,
+                textColor: Colors.white,
+                backgroundColor: Colors.black);
+            //showToast("press again to exit", gravity: Toast.bottom);
             return false;
           } else {
             SystemNavigator.pop();
@@ -114,8 +114,5 @@ class _pagesFrameState extends State<pagesFrame> {
         ),
       ),
     );
-  }
-  void showToast(String msg, {int? duration, int? gravity}) {
-    Toast.show(msg, duration: duration, gravity: gravity);
   }
 }

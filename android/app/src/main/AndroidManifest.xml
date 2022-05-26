@@ -2,7 +2,7 @@
     package="com.example.oued_kniss1">
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
-        android:label="oued_kniss1"
+        android:label="Spíti"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

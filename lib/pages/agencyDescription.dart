@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/homePageComponent/RecomendedCard.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../component/agencyProfileComponent/agencyDescription.dart';
+import '../server/api.dart';
 
 final phoneNumber = '+213776785800';
 final url = 'tel:$phoneNumber';
@@ -12,6 +16,8 @@ void _launchURL() async {
 }
 
 class agencyDescriptionPage extends StatefulWidget {
+  int id;
+  agencyDescriptionPage(this.id);
   @override
   _agencyDescriptionPageState createState() {
     return _agencyDescriptionPageState();
@@ -19,6 +25,8 @@ class agencyDescriptionPage extends StatefulWidget {
 }
 
 class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
+  var _OwnerDetails;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -96,8 +104,16 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
                     }),
               ],
             ),
-            agencyDesc(),
-            RecommendedCard('offerPage'),
+            agencyDesc(widget.id),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 8, 5, 8),
+              child: Text(
+                'From same agency',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black,fontSize: 18),
+              ),
+            ),
+            RecommendedCard('offerPage','/API/productsbyowner'),
           ],
         ),
       ),

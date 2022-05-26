@@ -12,7 +12,7 @@ class Comments extends StatefulWidget {
 }
 
 class _CommentsState extends State<Comments> {
-  var _offerReviews;
+  var _offerReviews=[],_ReviewOwner,ownersList=[];
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _CommentsState extends State<Comments> {
                   const SizedBox(
                     height: 2,
                   ),
-                  _offerReviews == null
+                  _offerReviews.isEmpty
                       ? Text('no comments yet be the first')
                       : ListView.builder(
                           padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
@@ -66,7 +66,7 @@ class _CommentsState extends State<Comments> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _offerReviews[index]['name'],
+                                  ownersList==null?'...':ownersList[index],
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -105,14 +105,30 @@ class _CommentsState extends State<Comments> {
       ),
     );
   }
-
+  _loadCommentOwner() async {
+    for(int i=0;i<_offerReviews.length;i++){
+      var response = await Api().getData('/auth/users/${_offerReviews[i]['owner_id']}','JWT');
+      if (response.statusCode == 200) {
+        setState(() {
+          _ReviewOwner = json.decode(response.body);
+          ownersList.add(_ReviewOwner['username']);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Error ' + response.statusCode.toString() + ': ' + response.body),
+        ));
+      }
+    }
+  }
   _loadComments() async {
-    var response = await Api().getData('/API/products/${widget.id}/reviews');
+    var response = await Api().getData('/API/products/${widget.id}/reviews','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerReviews = json.decode(response.body);
-        print(_offerReviews);
+        _loadCommentOwner();
       });
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

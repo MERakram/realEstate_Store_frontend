@@ -5,6 +5,8 @@ import 'package:oued_kniss1/pages/HomePage.dart';
 import '../imageSlider.dart';
 
 class OfferImage extends StatefulWidget {
+  int id;
+  OfferImage(this.id);
   @override
   State<OfferImage> createState() => _OfferImageState();
 }
@@ -18,7 +20,7 @@ class _OfferImageState extends State<OfferImage> {
         // color: const Color(0xFFE3E3E3),
         // color: Colors.white,
         margin: const EdgeInsets.only(top: 20),
-        height: 300,
+        height: 350,
         width: double.infinity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
@@ -26,7 +28,7 @@ class _OfferImageState extends State<OfferImage> {
             size: const Size.fromRadius(50), // Image radius
             child: Stack(
               children: [
-                imageSlider(),
+                imageSlider(widget.id),
                 Positioned(
                   right: 10,
                   top: 10,

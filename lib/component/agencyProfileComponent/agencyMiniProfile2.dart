@@ -1,8 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import '../../server/api.dart';
 import '../SmallHouseImage.dart';
 
-class agencyMiniProfile2 extends StatelessWidget {
+class agencyMiniProfile2 extends StatefulWidget {
+  int id;
+  agencyMiniProfile2(this.id);
+  @override
+  State<agencyMiniProfile2> createState() => _agencyMiniProfile2State();
+}
+
+class _agencyMiniProfile2State extends State<agencyMiniProfile2> {
+  var _OwnerDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadOwnerDetails();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +32,7 @@ class agencyMiniProfile2 extends StatelessWidget {
             Flexible(
               flex: 11,
               child: SizedBox(
-                child: SmallHouseImage(),
+                child: SmallHouseImage(widget.id),
                 width: 100,
               ),
             ),
@@ -29,12 +46,12 @@ class agencyMiniProfile2 extends StatelessWidget {
                     const EdgeInsets.fromLTRB(10, 1, 0, 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     SizedBox(
                       height: 20,
                     ),
                     Text(
-                      'house mda5en in cuoertino',
+                      _OwnerDetails==null?'...':_OwnerDetails['username'],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -61,5 +78,19 @@ class agencyMiniProfile2 extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
       ),
     );
+  }
+  _loadOwnerDetails() async {
+    var response = await Api().getData('/auth/users/${widget.id}','JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        _OwnerDetails = json.decode(response.body);
+        print(_OwnerDetails);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

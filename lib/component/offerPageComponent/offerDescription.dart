@@ -109,7 +109,7 @@ class _offerDescriptionState extends State<offerDescription> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/');
+    var response = await Api().getData('/API/products/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerData = json.decode(response.body);

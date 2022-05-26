@@ -36,187 +36,195 @@ class _editAccountPageState extends State<editAccountPage> {
       localizationsDelegates: const [
         location_picker.S.delegate,
       ],
-      home: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: _accountData == null
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'EDIT PROFILE',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+      home: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: _accountData == null
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'EDIT PROFILE',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 60,
-                        ),
-                       SizedBox(width: 10,),
-                       Text('\'${_accountData['username']}\'',style: TextStyle(
-                         fontWeight: FontWeight.bold,
-                         fontSize: 30,
-                         color: Color(0xFFCDB889),
-                       ),),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: TextFormField(
-                            initialValue: _accountData['email'],
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCDB889)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                hintText: 'Email',
-                                fillColor: Colors.grey[200],
-                                filled: true),
-                            onChanged: (value) {
-                              email = value;
-                            },
+                          SizedBox(
+                            height: 60,
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: TextFormField(
-                            initialValue: _accountData['first_name'],
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCDB889)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                hintText: 'First name',
-                                fillColor: Colors.grey[200],
-                                filled: true),
-                            onChanged: (value) {
-                              first_name = value;
-                            },
+                         SizedBox(width: 10,),
+                         Text('${_accountData['username']}',style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                           fontSize: 30,
+                           color: Color(0xFFCDB889),
+                         ),),
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: TextFormField(
-                            initialValue: _accountData['last_name'],
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFCDB889)),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                hintText: 'last_name',
-                                fillColor: Colors.grey[200],
-                                filled: true),
-                            onChanged: (value) {
-                              last_name = value;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: TextFormField(
+                              initialValue: _accountData['email'],
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Email',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                email = value;
                               },
-                              child: Container(
-                                width: 200,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 25),
-                                  child: Container(
-                                    padding: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Cancel',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: TextFormField(
+                              initialValue: _accountData['first_name'],
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'First name',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                first_name = value;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: TextFormField(
+                              initialValue: _accountData['last_name'],
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'last_name',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                last_name = value;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  width: 200,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 25),
+                                    child: Container(
+                                      padding: EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            GestureDetector(
-                              onTap: _patchoffer,
-                              child: Container(
-                                width: 200,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 25),
-                                  child: Container(
-                                    padding: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFCDB889),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Edit',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                              SizedBox(
+                                width: 10,
+                              ),
+                              GestureDetector(
+                                onTap: _patchoffer,
+                                child: Container(
+                                  width: 200,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 25),
+                                    child: Container(
+                                      padding: EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFCDB889),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Edit',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+              ),
             ),
           ),
+          backgroundColor: Colors.grey[300],
         ),
-        backgroundColor: Colors.grey[300],
       ),
     );
   }
 
   _loadData() async {
-    var response = await Api().getData('/auth/users/me/');
+    var response = await Api().getData('/auth/users/me/','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _accountData = json.decode(response.body);
@@ -245,7 +253,7 @@ class _editAccountPageState extends State<editAccountPage> {
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().patchData(data, '/auth/users/me/');
+    var response = await Api().patchData(data, '/auth/users/me/','JWT');
     if (response.statusCode == 200) {
       Navigator.pop(context);
     } else {

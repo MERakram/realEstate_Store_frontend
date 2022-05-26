@@ -11,7 +11,8 @@ import '../BigHouseImage.dart';
 
 class RecommendedCard extends StatefulWidget {
   String destination;
-  RecommendedCard(this.destination);
+  String url;
+  RecommendedCard(this.destination, this.url);
   @override
   State<RecommendedCard> createState() => _RecommendedCardState();
 }
@@ -24,7 +25,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
   @override
   void initState() {
     super.initState();
-    _loadOffers();
+    loadOffersR();
   }
 
   @override
@@ -36,7 +37,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
     return SizedBox(
       height: height * 0.52,
       child: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
@@ -73,7 +74,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                           const SizedBox(
                             height: 7,
                           ),
-                          BigHouseImage(),
+                          BigHouseImage(_offers[index]['id']),
                           Padding(
                             padding:
                                 // EdgeInsets.fromLTRB(left, top, right, bottom)
@@ -110,37 +111,43 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      CircleAvatar(
-                                        backgroundColor: Color(0x34CDB889),
+                                      if(_offers[index]['categories'] != 'Land')
+                                        CircleAvatar(
+                                        backgroundColor: Colors.white,
                                         radius: 15,
                                         child: Icon(
                                           Icons.bed_rounded,
                                           color: Colors.black,
                                         ),
                                       ),
-                                      SizedBox(
+                                      if(_offers[index]['categories'] != 'Land')
+                                      const SizedBox(
                                         width: 5,
                                       ),
+                                      if(_offers[index]['categories'] != 'Land')
                                       Text(
                                         _offers[index]['rooms'],
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,fontSize: 18),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
-                                      CircleAvatar(
-                                        backgroundColor: Color(0x34CDB889),
-                                        radius: 15,
-                                        child: Icon(Icons.camera),
+                                      const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 11,
+                                        child: Image(
+                                          image: AssetImage(
+                                              'assets/images/area.png'),
+                                        ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         _offers[index]['size'],
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,fontSize: 18),
                                       ),
                                     ],
                                   ),
@@ -151,12 +158,12 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 _offers[index]['whatfor'] == 'for_rent'
                                     ? Text(
                                         '\$ ${_offers[index]['price'].toString()} / day',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       )
                                     : Text(
                                         '\$ ${_offers[index]['price'].toString()}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
                               ],
@@ -184,11 +191,11 @@ class _RecommendedCardState extends State<RecommendedCard> {
     );
   }
 
-  _loadOffers() async {
+  loadOffersR() async {
     setState(() {
       _isLoading = true;
     });
-    var response = await Api().getData('/API/products');
+    var response = await Api().getData('${widget.url}', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _isLoading = false;

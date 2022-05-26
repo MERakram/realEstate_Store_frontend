@@ -79,7 +79,7 @@ class _offerMapState extends State<offerMap> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/');
+    var response = await Api().getData('/API/products/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       setState(
         () {
@@ -87,11 +87,9 @@ class _offerMapState extends State<offerMap> {
           _offerData = json.decode(response.body);
           // print(_offerData);
           lat = double.parse(_offerData['Lat']);
-          print(lat);
           long = double.parse(
             _offerData['Long'],
           );
-          print(long);
           allMarkers.add(
             Marker(
               markerId: MarkerId(_offerData['id'].toString()),

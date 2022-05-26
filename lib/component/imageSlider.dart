@@ -1,20 +1,33 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class imageSlider extends StatelessWidget {
+import '../server/api.dart';
+
+class imageSlider extends StatefulWidget {
+  int id;
+  imageSlider(this.id);
+  @override
+  State<imageSlider> createState() => _imageSliderState();
+}
+class _imageSliderState extends State<imageSlider> {
+  var _offers;
   final images = [
-    'assets/images/S1.jpg',
-    'assets/images/home.jpg',
-    'assets/images/vanta.jpg',
-    'assets/images/S.jpg',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1g7H2Qcse7nhXqoLTx7STDxh5dPIcArxZqQ&usqp=CAU'
   ];
+  @override
+  void initState() {
+    super.initState();
+    _loadOffer();
+  }
   @override
   Widget build(BuildContext context) {
     return   Center(
       child: SizedBox(height: 300,
         child: CarouselSlider.builder(
           options: CarouselOptions(
-            height: 200.0,
+            height: 260.0,
             enlargeCenterPage: true,
             autoPlay: true,
             aspectRatio: 16 / 9,
@@ -38,7 +51,10 @@ class imageSlider extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
-          image: AssetImage(image),
+          image: _offers == null
+              ? NetworkImage(
+              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png')
+              :NetworkImage(image),
           fit: BoxFit.cover,
         ),
         boxShadow: [
@@ -51,5 +67,29 @@ class imageSlider extends StatelessWidget {
         ],
       ),
     );
+  }
+  _loadOffer() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    var response = await Api().getData('/API/products/${widget.id}/', 'JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        // _isLoading = false;
+        _offers = json.decode(response.body);
+        images.clear();
+        for(int i=0;i<_offers.length;i++){
+          images.add(_offers['images'][i]['images'].toString());
+        }
+      });
+    } else {
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

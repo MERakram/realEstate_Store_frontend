@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:oued_kniss1/pages/loginPage.dart';
 import 'package:oued_kniss1/pages/myOffersPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,13 +19,32 @@ class AgencyProfile extends StatefulWidget {
 }
 
 class _AgencyProfileState extends State<AgencyProfile> {
+  File? image;
+  final ImagePicker _picker = ImagePicker();
   var _profileData;
+  late String fileName, filePath;
   @override
   void initState() {
     super.initState();
     _loadData();
-
   }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      fileName = image.path.split('/').last;
+      filePath = image.path;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+        print('IMAGE : $fileName');
+      });
+    } on PlatformException catch (e) {
+      print('failed $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -81,17 +104,23 @@ class _AgencyProfileState extends State<AgencyProfile> {
                   ),
                   Text(
                     'Profile',
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   )
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Stack(
                 overflow: Overflow.visible,
                 children: [
                   CircleAvatar(
                     radius: 70,
-                    backgroundImage: AssetImage("assets/images/home.jpg"),
+                    backgroundImage: _profileData == null
+                        ? NetworkImage(
+                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png')
+                        : NetworkImage(_profileData['avatar']),
+                    backgroundColor: Colors.transparent,
                   ),
                   Positioned(
                     bottom: 0,
@@ -112,8 +141,8 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 ],
               ),
               SizedBox(height: 20),
-              Text(_profileData==null?'...':_profileData['username']
-                ,
+              Text(
+                _profileData == null ? '...' : _profileData['username'],
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -143,7 +172,8 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 press: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => myOffersPage()),
+                    MaterialPageRoute(
+                        builder: (context) => myOffersPage(_profileData['id'])),
                   );
                 },
               ),
@@ -152,7 +182,11 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 firstIcon: Icon(Icons.logout),
                 press: () async {
                   await SharedPreferencesManager().clearAuthToken();
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => loginPage()),
+                  );
                 },
               ),
             ],
@@ -161,8 +195,9 @@ class _AgencyProfileState extends State<AgencyProfile> {
       ),
     );
   }
+
   _loadData() async {
-    var response = await Api().getData('/auth/users/me/');
+    var response = await Api().getData('/auth/users/me/', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _profileData = json.decode(response.body);
@@ -212,5 +247,4 @@ class ProfileMenu extends StatelessWidget {
       ),
     );
   }
-
 }

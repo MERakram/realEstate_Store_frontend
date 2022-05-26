@@ -1,15 +1,25 @@
-import 'package:blurrycontainer/blurrycontainer.dart';
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_like_button/insta_like_button.dart';
 import 'package:like_button/like_button.dart';
 
+import '../server/api.dart';
+
 class BigHouseImage extends StatefulWidget {
+  int id;
+  BigHouseImage(this.id);
   @override
   State<BigHouseImage> createState() => _BigHouseImageState();
 }
 
 class _BigHouseImageState extends State<BigHouseImage> {
+  var _offers;
+  @override
+  void initState() {
+    super.initState();
+    _loadOffer();
+  }
   @override
   Widget build(BuildContext context) {
     bool isliked;
@@ -35,8 +45,12 @@ class _BigHouseImageState extends State<BigHouseImage> {
                 InstaLikeButton(
                   icon: Icons.favorite_border,
                   iconColor: Colors.red,
-                  imageBoxfit: BoxFit.cover,
-                  image: const AssetImage("assets/images/home.jpg"),
+                   imageBoxfit: BoxFit.cover,
+                  // image: const AssetImage("assets/images/home.jpg"),
+                  image:NetworkImage(_offers == null
+                      ?
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1g7H2Qcse7nhXqoLTx7STDxh5dPIcArxZqQ&usqp=CAU'
+                      :_offers['images'][0]['images']),
                   onChanged: () {
                     setState(() {
                       isliked = true;
@@ -71,11 +85,32 @@ class _BigHouseImageState extends State<BigHouseImage> {
                     ],
                   ),
                 ),
+
               ],
             ),
           ),
         ),
       ),
     );
+  }
+  _loadOffer() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    var response = await Api().getData('/API/products/${widget.id}/', 'JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        // _isLoading = false;
+        _offers = json.decode(response.body);
+      });
+    } else {
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

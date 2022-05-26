@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../server/api.dart';
 
@@ -9,286 +13,339 @@ class registerPage extends StatefulWidget {
 }
 
 class _registerPageState extends State<registerPage> {
-  String dropdownValue = 'Agency';
+  File? image;
+  final ImagePicker _picker = ImagePicker();
+  late String dropdownValue = 'Agency',fileName,filePath;
   var username, first_name, last_name, email, password, password_confirmation;
   bool _isLoading = false;
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      fileName=image.path.split('/').last;
+      filePath=image.path;
+      print(filePath);
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('failed $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 75,
-                ),
-                Text(
-                  'Hello Again!',
-                  style: GoogleFonts.bebasNeue(fontSize: 52),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Welcome back, you\'ve been missed',
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFCDB889)),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'Username',
-                        fillColor: Colors.grey[100],
-                        filled: true),
-                    onChanged: (value) {
-                      username = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFCDB889)),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'First name',
-                        fillColor: Colors.grey[100],
-                        filled: true),
-                    onChanged: (value) {
-                      first_name = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFCDB889)),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'Last name',
-                        fillColor: Colors.grey[100],
-                        filled: true),
-                    onChanged: (value) {
-                      last_name = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFCDB889)),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'Email',
-                        fillColor: Colors.grey[100],
-                        filled: true),
-                    onChanged: (value) {
-                      email = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFCDB889)),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      hintText: 'Password',
-                      fillColor: Colors.grey[100],
-                      filled: true,
-                    ),
-                    onChanged: (value) {
-                      password = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFCDB889)),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      hintText: 'Password confirmation',
-                      fillColor: Colors.grey[100],
-                      filled: true,
-                    ),
-                    onChanged: (value) {
-                      password_confirmation = value;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(width: 1,),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      height: 60,
-                      width: 150,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        child: DropdownButton<String>(
-                          value: dropdownValue,
-                          underline: SizedBox(),
-                          isExpanded: true,
-                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                          elevation: 16,
-                          style: const TextStyle(
-                              color: Color(0xFF5F5F5F),
-                              fontSize: 17
-                          ),
-                          iconSize: 30,
-                          onChanged: (newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                          items: <String>[ 'Agency','Customer']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                                value: value,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Text(value),
-                                ));
-                          }).toList(),
-                        ),
-                      ),
-                    ),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
 
-                    GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 25),
-                        child: Container(
-                          width: 150,
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFCDB889),
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    'Hello Again!',
+                    style: GoogleFonts.bebasNeue(fontSize: 52),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Fill with your informations please',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(12),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Username',
+                          fillColor: Colors.grey[100],
+                          filled: true),
+                      onChanged: (value) {
+                        username = value;
+                      },
+                    ),
+                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 25),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //         enabledBorder: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Colors.white),
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         focusedBorder: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Color(0xFFCDB889)),
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         hintText: 'First name',
+                  //         fillColor: Colors.grey[100],
+                  //         filled: true),
+                  //     onChanged: (value) {
+                  //       first_name = value;
+                  //     },
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 25),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //         enabledBorder: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Colors.white),
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         focusedBorder: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Color(0xFFCDB889)),
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         hintText: 'Last name',
+                  //         fillColor: Colors.grey[100],
+                  //         filled: true),
+                  //     onChanged: (value) {
+                  //       last_name = value;
+                  //     },
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCDB889)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintText: 'Email',
+                          fillColor: Colors.grey[100],
+                          filled: true),
+                      onChanged: (value) {
+                        email = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Password',
+                        fillColor: Colors.grey[100],
+                        filled: true,
+                      ),
+                      onChanged: (value) {
+                        password = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCDB889)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Password confirmation',
+                        fillColor: Colors.grey[100],
+                        filled: true,
+                      ),
+                      onChanged: (value) {
+                        password_confirmation = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: pickImage,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Container(
+                        height: 60,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(0),
                           child: Center(
-                            child: _isLoading == true
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : const Text(
-                                    'Register',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                              child: image != null
+                                  ? Image.file(image!)
+                                  : Text('Pick image')),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(width: 1,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        height: 60,
+                        width: 150,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            underline: SizedBox(),
+                            isExpanded: true,
+                            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                            elevation: 16,
+                            style: const TextStyle(
+                                color: Color(0xFF5F5F5F),
+                                fontSize: 17
+                            ),
+                            iconSize: 30,
+                            onChanged: (newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
+                            },
+                            items: <String>[ 'Agency','Customer']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(value),
+                                  ));
+                            }).toList(),
                           ),
                         ),
                       ),
-                      onTap: () {
-                        setState(() {
-                          _submit();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Already a member?',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+
+                      GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: Container(
+                            width: 150,
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFCDB889),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: _isLoading == true
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : const Text(
+                                      'Register',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _submit();
+                          });
+                        },
                       ),
-                    ),
-                    GestureDetector(
-                      child: Text(
-                        ' Sign in',
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Already a member?',
                         style: TextStyle(
-                          color: Color(0xFFCDB889),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        child: Text(
+                          ' Sign in',
+                          style: TextStyle(
+                            color: Color(0xFFCDB889),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
+        backgroundColor: Colors.grey[300],
       ),
-      backgroundColor: Colors.grey[300],
     );
   }
 
@@ -323,18 +380,16 @@ class _registerPageState extends State<registerPage> {
     data['username'] = username;
     data['account_type']=dropdownValue;
     data['email'] = email;
-    data['firstname'] = first_name;
-    data['lastname'] = last_name;
+    // data['firstname'] = first_name;
+    // data['lastname'] = last_name;
     data['password'] = password;
 
     // data['password'] = password_confirmation;
 
     //data['user_id'] = user_id.toString();
 
-    // data['image'] = _image.path;
-
-    //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().postData(data, '/auth/users/');
+    var response = await Api().postDataWithImage(data, '/auth/users/', filePath,'Bearer','avatar');
+    //var response = await Api().postData(data, '/auth/users/','Bearer');
 
     if (response.statusCode == 201) {
       setState(() {

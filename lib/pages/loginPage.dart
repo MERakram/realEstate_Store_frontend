@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:oued_kniss1/pages/HomePage.dart';
 import 'package:oued_kniss1/pages/pagesFrame.dart';
 import 'package:oued_kniss1/pages/registerPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,8 +24,8 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
-  bool obscurepass=true;
-   bool _passwordVisible=false;
+  bool obscurepass = true;
+  bool _passwordVisible = false;
   final usernamefieldText = TextEditingController();
   final passwordfieldText = TextEditingController();
   late SharedPreferences preferences;
@@ -32,11 +35,12 @@ class _loginPageState extends State<loginPage> {
   void initState() {
     super.initState();
     init();
-
   }
-Future init()async{
+
+  Future init() async {
     preferences = await SharedPreferences.getInstance();
-}
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -48,7 +52,6 @@ Future init()async{
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
@@ -60,22 +63,23 @@ Future init()async{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    Icons.star,
-                    size: 100,
+                  Container(
+                  height: 200,
+                    width: 200,
+                    child: SvgPicture.asset('assets/images/Asset3.svg'),
                   ),
                   SizedBox(
                     height: 75,
                   ),
                   Text(
-                    'Hello Again!',
+                    'Welcome to Spíti',
                     style: GoogleFonts.bebasNeue(fontSize: 52),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'Welcome back, you\'ve been missed',
+                    'your window to real estate world',
                     style: TextStyle(fontSize: 20),
                   ),
                   SizedBox(
@@ -124,7 +128,7 @@ Future init()async{
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
                             setState(() {
-                              obscurepass=!obscurepass;
+                              obscurepass = !obscurepass;
                               _passwordVisible = !_passwordVisible;
                             });
                           },
@@ -251,29 +255,71 @@ Future init()async{
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().postData(data, '/auth/jwt/create/');
+    var response = await Api().postData(data, '/auth/jwt/create/', 'JWT');
     if (response.statusCode == 200) {
-       var body= json.decode(response.body);
-       String? accessToken=body['access'];
-        preferences.setString('accessToken', '$accessToken');
-       clearUsername();clearPassword();FocusScopeNode currentFocus = FocusScope.of(context);
+      var body = json.decode(response.body);
+      String? accessToken = body['access'];
+      preferences.setString('accessToken', '$accessToken');
+      clearUsername();
+      clearPassword();
+      FocusScopeNode currentFocus = FocusScope.of(context);
       setState(() {
         _isLoading = false;
       });
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => pagesFrame()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else if (response.statusCode == 401) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('check your login/connection'),
-          action: SnackBarAction(
-            label: 'Close',
-            onPressed: () {
-              // Some code to undo the change!
-            },
+          content: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Color(0xFFC72C41),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 48,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Oh Snap",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'check your login/connection',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
       );
     } else {
@@ -304,12 +350,15 @@ Future init()async{
       t.cancel(); //stops the timer
     });
   }
+
   void clearUsername() {
     usernamefieldText.clear();
   }
+
   void clearPassword() {
     passwordfieldText.clear();
   }
+
   void showPassword() {
     passwordfieldText;
   }

@@ -6,6 +6,8 @@ import 'OfferPage.dart';
 import 'editOfferPage.dart';
 
 class myOffersPage extends StatefulWidget {
+  int id;
+  myOffersPage(this.id);
   @override
   _myOffersPageState createState() {
     return _myOffersPageState();
@@ -52,11 +54,25 @@ class _myOffersPageState extends State<myOffersPage> {
                           ),
                           height: 45,
                           width: 45,
-                          child: const Center(
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
-                              size: 27,
+                          child: Container(
+                            child: Center(
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.black,
+                                size: 27,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6.0),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF605F5F).withOpacity(0.1),
+                                  spreadRadius: 2,
+                                  blurRadius: 1,
+                                  offset: Offset(2, 1),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -66,7 +82,7 @@ class _myOffersPageState extends State<myOffersPage> {
                       },
                     ),
                     SizedBox(
-                      width: 30,
+                      width: 40,
                     ),
                     Text(
                       'my Offers',
@@ -77,12 +93,12 @@ class _myOffersPageState extends State<myOffersPage> {
                     ),
                   ],
                 ),
-                RecommendedCard('editOfferPage'),
+                RecommendedCard('editOfferPage','/API/productsbyowner'),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => addOfferPage()),
+                      MaterialPageRoute(builder: (context) => addOfferPage(widget.id)),
                     );
                   },
                   child: Container(

@@ -109,7 +109,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 40,
               ),
               Stack(
                 overflow: Overflow.visible,
@@ -140,12 +140,12 @@ class _AgencyProfileState extends State<AgencyProfile> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Text(
                 _profileData == null ? '...' : _profileData['username'],
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 80),
               ProfileMenu(
                 text: "Edit Account",
                 firstIcon: Icon(Icons.edit),
@@ -156,16 +156,16 @@ class _AgencyProfileState extends State<AgencyProfile> {
                   );
                 },
               ),
-              ProfileMenu(
-                text: "likes",
-                firstIcon: Icon(Icons.favorite),
-                press: () {},
-              ),
-              ProfileMenu(
-                text: "comments",
-                firstIcon: Icon(Icons.comment),
-                press: () {},
-              ),
+              // ProfileMenu(
+              //   text: "likes",
+              //   firstIcon: Icon(Icons.favorite),
+              //   press: () {},
+              // ),
+              // ProfileMenu(
+              //   text: "comments",
+              //   firstIcon: Icon(Icons.comment),
+              //   press: () {},
+              // ),
               ProfileMenu(
                 text: "My Offers",
                 firstIcon: Icon(Icons.home),

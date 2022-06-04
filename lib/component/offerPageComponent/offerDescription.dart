@@ -18,8 +18,9 @@ class _offerDescriptionState extends State<offerDescription> {
   @override
   void initState() {
     super.initState();
-     _loadData();
+    _loadData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,21 +34,24 @@ class _offerDescriptionState extends State<offerDescription> {
             ),
             Padding(
               padding:
-              // EdgeInsets.fromLTRB(left, top, right, bottom)
-              const EdgeInsets.fromLTRB(18, 1, 12, 5),
+                  // EdgeInsets.fromLTRB(left, top, right, bottom)
+                  const EdgeInsets.fromLTRB(18, 1, 12, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 2,
                   ),
-                  Text('Title:',style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFFCDB889),
-                  ),),
-                   Text(_offerData==null?'...':
-                     _offerData['title'],
+                  Text(
+                    'Title:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color(0xFFCDB889),
+                    ),
+                  ),
+                  Text(
+                    _offerData == null ? '...' : _offerData['title'],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -56,14 +60,16 @@ class _offerDescriptionState extends State<offerDescription> {
                   const SizedBox(
                     height: 2,
                   ),
-                  Text('Location:',style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Color(0xFFCDB889),
-      ),),
                   Text(
-                    _offerData==null?'...':
-                    _offerData['Location'],
+                    'Location:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color(0xFFCDB889),
+                    ),
+                  ),
+                  Text(
+                    _offerData == null ? '...' : _offerData['Location'],
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
@@ -72,17 +78,22 @@ class _offerDescriptionState extends State<offerDescription> {
                   const SizedBox(
                     height: 2,
                   ),
-                  Text('Descreption:',style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFFCDB889),
-                  ),),
                   Text(
-                    _offerData==null?'...':
-                    '${_offerData['description']}',
+                    'Descreption:',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color(0xFFCDB889),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      _offerData == null ? '...' : '${_offerData['description']}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
@@ -109,7 +120,7 @@ class _offerDescriptionState extends State<offerDescription> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/','JWT');
+    var response = await Api().getData('/API/products/${widget.id}/', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerData = json.decode(response.body);

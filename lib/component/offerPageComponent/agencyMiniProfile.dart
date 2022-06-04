@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import '../../pages/agencyDescription.dart';
 import '../../server/api.dart';
+import '../SmallAgencyImage.dart';
 import '../SmallHouseImage.dart';
+
 class agencyMiniProfile extends StatefulWidget {
   int id;
   agencyMiniProfile(this.id);
@@ -14,13 +14,14 @@ class agencyMiniProfile extends StatefulWidget {
 }
 
 class _agencyMiniProfileState extends State<agencyMiniProfile> {
-  var _offerOwner,_OwnerDetails;
+  var _offerOwner, _OwnerDetails;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _loadOwner();
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,7 +29,9 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => agencyDescriptionPage(_offerOwner['owner_id'])),
+            builder: (context) =>
+                agencyDescriptionPage(_offerOwner['owner_id']),
+          ),
         );
       },
       child: Container(
@@ -40,7 +43,7 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
               Flexible(
                 flex: 10,
                 child: SizedBox(
-                  child: SmallHouseImage(_offerOwner['owner_id']),
+                  child: _offerOwner==null ? Icon(Icons.downloading) : SmallAgencyImage(_offerOwner['owner_id']),
                   width: 80,
                 ),
               ),
@@ -50,16 +53,18 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
                   width: 300,
                   color: Colors.white,
                   padding:
-                  // EdgeInsets.fromLTRB(left, top, right, bottom)
-                  const EdgeInsets.fromLTRB(10, 1, 0, 5),
+                      // EdgeInsets.fromLTRB(left, top, right, bottom)
+                      const EdgeInsets.fromLTRB(10, 1, 0, 5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
+                    children: [
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        _OwnerDetails==null?'...':_OwnerDetails['username'],
+                        _OwnerDetails == null
+                            ? '...'
+                            : _OwnerDetails['username'],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
@@ -111,26 +116,27 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
   }
 
   _loadOwnerDetails() async {
-      var response = await Api().getData('/auth/users/${_offerOwner['owner_id']}','JWT');
-      if (response.statusCode == 200) {
-        setState(() {
-          _OwnerDetails = json.decode(response.body);
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              'Error ' + response.statusCode.toString() + ': ' + response.body),
-        ));
-      }
+    var response =
+        await Api().getData('/auth/users/${_offerOwner['owner_id']}', 'JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        _OwnerDetails = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
+
   _loadOwner() async {
-    var response = await Api().getData('/API/products/${widget.id}','JWT');
+    var response = await Api().getData('/API/products/${widget.id}', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerOwner = json.decode(response.body);
         _loadOwnerDetails();
       });
-
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

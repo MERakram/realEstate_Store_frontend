@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/SearchBar.dart';
 
+import '../component/FilterSheet.dart';
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() {
@@ -75,7 +77,17 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(
                 height: 20,
               ),
-              searchBar()
+              searchBar(),
+              ElevatedButton(onPressed:(){
+                showModalBottomSheet(
+                    isDismissible: true,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (context) =>
+                        FilterOffer(context: context));
+              }
+                  , child: Text('hello'))
             ],
           ),
         ),

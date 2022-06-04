@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 import 'package:oued_kniss1/component/homePageComponent/forSale.dart';
 import 'package:oued_kniss1/pages/editOfferPage.dart';
@@ -77,26 +78,26 @@ class _RecommendedCardState extends State<RecommendedCard> {
                           BigHouseImage(_offers[index]['id']),
                           Padding(
                             padding:
-                                // EdgeInsets.fromLTRB(left, top, right, bottom)
                                 const EdgeInsets.fromLTRB(18, 1, 12, 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 _offers[index]['whatfor'] == 'for_rent'
                                     ? ForRent()
                                     : ForSale(),
+                                // const SizedBox(
+                                //   height: 2,
+                                // ),
+                                // Text(
+                                //   _offers[index]['title'],
+                                //   style: TextStyle(
+                                //     fontWeight: FontWeight.bold,
+                                //     fontSize: 20,
+                                //   ),
+                                // ),
                                 const SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  _offers[index]['title'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 2,
+                                  height: 5,
                                 ),
                                 Text(
                                   _offers[index]['Location'],
@@ -106,7 +107,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 2,
+                                  height: 5,
                                 ),
                                 Container(
                                   child: Row(
@@ -155,16 +156,21 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 const SizedBox(
                                   height: 5,
                                 ),
+                                Text(
+                                  _offers[index]['categories'],
+                                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
                                 _offers[index]['whatfor'] == 'for_rent'
                                     ? Text(
                                         '\$ ${_offers[index]['price'].toString()} / day',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
                                       )
                                     : Text(
                                         '\$ ${_offers[index]['price'].toString()}',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
                                       ),
                               ],
                             ),
@@ -177,9 +183,9 @@ class _RecommendedCardState extends State<RecommendedCard> {
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF605F5F).withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 1,
-                            offset: Offset(2, 1),
+                            spreadRadius: -2,
+                            blurRadius: 6,
+                            offset: Offset(0, 0),
                           ),
                         ],
                       ),

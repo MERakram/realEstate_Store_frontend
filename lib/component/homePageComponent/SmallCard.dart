@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/homePageComponent/forRent.dart';
 
@@ -70,6 +71,7 @@ class _SmallCardState extends State<SmallCard> {
                                   const EdgeInsets.fromLTRB(10, 1, 0, 5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const SizedBox(
                                     height: 10,
@@ -77,16 +79,16 @@ class _SmallCardState extends State<SmallCard> {
                                   _offers[index]['whatfor'] == 'for_rent'
                                       ? ForRent()
                                       : ForSale(),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    _offers[index]['title'],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17,
-                                    ),
-                                  ),
+                                  // const SizedBox(
+                                  //   height: 2,
+                                  // ),
+                                  // Text(
+                                  //   _offers[index]['title'],
+                                  //   style: TextStyle(
+                                  //     fontWeight: FontWeight.bold,
+                                  //     fontSize: 17,
+                                  //   ),
+                                  // ),
                                   const SizedBox(
                                     height: 2,
                                   ),
@@ -110,7 +112,7 @@ class _SmallCardState extends State<SmallCard> {
                                           child: Icon(Icons.bed_rounded,color: Colors.black,),
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          width: 0,
                                         ),
                                         Text(
                                           _offers[index]['rooms'],
@@ -118,7 +120,7 @@ class _SmallCardState extends State<SmallCard> {
                                               fontWeight: FontWeight.bold,fontSize: 18),
                                         ),
                                         const SizedBox(
-                                          width: 5,
+                                          width: 20,
                                         ),
                                         const CircleAvatar(
                                           backgroundColor: Colors.white,
@@ -129,27 +131,30 @@ class _SmallCardState extends State<SmallCard> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          width: 6,
                                         ),
                                         Text(
                                           _offers[index]['size'],
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,fontSize: 18),
                                         ),
-
                                       ],
                                     ),
                                   ),
+                                  Text(
+                                    _offers[index]['categories'],
+                                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18),
+                                  ),
                                   const SizedBox(
-                                    height: 5,
+                                    height: 2,
                                   ),
                                   _offers[index]['whatfor']=='for_rent'?
                                   Text(
-                                    '\$ ${_offers[index]['price'].toString()} / day',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    '\$${_offers[index]['price'].toString()} / day',
+                                    style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
                                   ):Text(
-                                    '\$ ${_offers[index]['price'].toString()}',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    '\$${_offers[index]['price'].toString()}',
+                                    style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -167,9 +172,9 @@ class _SmallCardState extends State<SmallCard> {
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF605F5F).withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 1,
-                            offset: Offset(2, 1),
+                            spreadRadius: -2,
+                            blurRadius: 6,
+                            offset: Offset(0, 0),
                           ),
                         ],
                       ),

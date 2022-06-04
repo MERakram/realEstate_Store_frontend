@@ -13,6 +13,7 @@ import 'package:oued_kniss1/pages/pagesFrame.dart';
 import 'package:oued_kniss1/pages/registerPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../component/snackBar.dart';
 import '../server/SharedPreferencesManager.dart';
 import '../server/api.dart';
 
@@ -219,7 +220,7 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
       ),
     );
   }

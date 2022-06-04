@@ -40,11 +40,13 @@ class _OfferPageState extends State<OfferPage> {
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: GestureDetector(
-        onTap: () {
-          Unfocus();
-        },
-        child: Scaffold(
+      home:
+      // GestureDetector(
+      //   onTap: () {
+      //     Unfocus();
+      //   },
+      //   child:
+        Scaffold(
           resizeToAvoidBottomInset: false,
           // backgroundColor: Colors.grey[300],
           backgroundColor: const Color(0xFFF5F7F9),
@@ -132,7 +134,7 @@ class _OfferPageState extends State<OfferPage> {
             ],
           ),
         ),
-      ),
+      // ),
     );
   }
 

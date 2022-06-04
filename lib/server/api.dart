@@ -8,6 +8,7 @@ import 'package:oued_kniss1/server/SharedPreferencesManager.dart';
 
 class Api {
   final String _baseUrl = 'http://10.0.2.2:8000';
+  // final String _baseUrl = 'http://127.0.0.1:8000';
   //if you are using android studio emulator, change localhost to 10.0.2.2
   var token;
 

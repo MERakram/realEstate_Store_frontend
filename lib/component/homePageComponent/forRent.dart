@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -8,13 +9,14 @@ class ForRent extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
+      padding: EdgeInsets.only(top: 3,bottom: 3,right: 5,left:5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: const Color(0xFFBAF6F1),
         shape: BoxShape.rectangle,
       ),
       // alignment: Align(),
-      width: 100,
+      width: 110,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: const [

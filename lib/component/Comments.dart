@@ -34,7 +34,6 @@ class _CommentsState extends State<Comments> {
             ),
             Padding(
               padding:
-                  // EdgeInsets.fromLTRB(left, top, right, bottom)
                   const EdgeInsets.fromLTRB(18, 1, 12, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,7 +6,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:oued_kniss1/pages/AgencyProfile.dart';
 import 'package:oued_kniss1/pages/HomePage.dart';
 
-import '../main3.dart';
 import 'OfferPage.dart';
 import 'agencyDescription.dart';
 import 'mapSearch.dart';

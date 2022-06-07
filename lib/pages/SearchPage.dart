@@ -19,6 +19,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    if (widget.Search==null)
+      widget.Search='';
   }
 
   @override
@@ -47,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(0.0),
                         child: Container(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
@@ -56,6 +58,7 @@ class _SearchPageState extends State<SearchPage> {
                           height: 45,
                           width: 45,
                           child: Container(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                             child: Center(
                               child: Icon(
                                 Icons.arrow_back_ios,

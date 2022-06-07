@@ -135,7 +135,6 @@ class _BigHouseImageState extends State<BigHouseImage> {
     if (response.statusCode == 200) {
       setState(() {
         _LikedList = json.decode(response.body);
-        print(_LikedList);
         for (int i = 0; i < _LikedList.length; i++) {
           print(_LikedList[i]['Offer']);
           if (_LikedList[i]['Offer']== widget.id)

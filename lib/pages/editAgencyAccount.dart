@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 
 import '../server/api.dart';
 
-class editAccountPage extends StatefulWidget {
+class editAgencyAccount extends StatefulWidget {
   @override
-  _editAccountPageState createState() {
-    return _editAccountPageState();
+  _editAgencyAccountState createState() {
+    return _editAgencyAccountState();
   }
 }
 
-class _editAccountPageState extends State<editAccountPage> {
+class _editAgencyAccountState extends State<editAgencyAccount> {
   var _accountData;
-  var username, email, last_name, first_name;
+  var username, email, last_name, first_name,description,phone;
   @override
   void initState() {
     super.initState();
@@ -30,6 +30,9 @@ class _editAccountPageState extends State<editAccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -62,7 +65,7 @@ class _editAccountPageState extends State<editAccountPage> {
                             ),
                           ),
                           SizedBox(
-                            height: 60,
+                            height: height*0.15,
                           ),
                           SizedBox(
                             width: 10,
@@ -153,6 +156,56 @@ class _editAccountPageState extends State<editAccountPage> {
                           SizedBox(
                             height: 10,
                           ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: TextFormField(
+                              initialValue: _accountData['description'],
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Agency Description',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                description = value;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25),
+                            child: TextFormField(
+                              initialValue: _accountData['phone'],
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Color(0xFFCDB889)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: 'Phone number',
+                                  fillColor: Colors.grey[200],
+                                  filled: true),
+                              onChanged: (value) {
+                                phone = value;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -161,7 +214,7 @@ class _editAccountPageState extends State<editAccountPage> {
                                   Navigator.pop(context);
                                 },
                                 child: Container(
-                                  width: 200,
+                                  width: width*0.5,
                                   child: Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 25),
@@ -184,13 +237,13 @@ class _editAccountPageState extends State<editAccountPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
+                              // SizedBox(
+                              //   width: 10,
+                              // ),
                               GestureDetector(
                                 onTap: _patchoffer,
                                 child: Container(
-                                  width: 200,
+                                  width: width*0.5,
                                   child: Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 25),
@@ -256,7 +309,8 @@ class _editAccountPageState extends State<editAccountPage> {
 
     data['last_name'] =
         last_name == null ? _accountData['last_name'] : last_name;
-
+    data['description'] = description == null ? _accountData['description'] : description;
+    data['phone'] = phone == null ? _accountData['phone'] : phone;
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);

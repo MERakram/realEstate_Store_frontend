@@ -35,6 +35,9 @@ class _registerPageState extends State<registerPage> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return GestureDetector(
       onTap: () {
@@ -218,7 +221,7 @@ class _registerPageState extends State<registerPage> {
                       ),
                       child: Container(
                         height: 60,
-                        width: 200,
+                        width: width*0.35,
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
                           border: Border.all(color: Colors.white),
@@ -247,7 +250,7 @@ class _registerPageState extends State<registerPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         height: 60,
-                        width: 150,
+                        width: width*0.35,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
                           child: DropdownButton<String>(
@@ -283,7 +286,7 @@ class _registerPageState extends State<registerPage> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25),
                           child: Container(
-                            width: 150,
+                            width: width*0.35,
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: Color(0xFFCDB889),
@@ -396,6 +399,48 @@ class _registerPageState extends State<registerPage> {
         _isLoading = false;
       });
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 48,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Great!",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
     } else {
       setState(() {
         _isLoading = false;

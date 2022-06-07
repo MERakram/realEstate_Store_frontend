@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../server/SharedPreferencesManager.dart';
 import '../server/api.dart';
-import 'editAccountPage.dart';
+import 'editAgencyAccount.dart';
+import 'editCustomerAccount.dart';
 import 'loginPage.dart';
 import 'myOffersPage.dart';
 
@@ -24,6 +25,9 @@ class _CostumerProfileState extends State<CostumerProfile> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6F9),
@@ -41,7 +45,6 @@ class _CostumerProfileState extends State<CostumerProfile> {
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -50,6 +53,7 @@ class _CostumerProfileState extends State<CostumerProfile> {
                         height: 45,
                         width: 45,
                         child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: Center(
                             child: Icon(
                               Icons.arrow_back_ios,
@@ -77,7 +81,7 @@ class _CostumerProfileState extends State<CostumerProfile> {
                     },
                   ),
                   SizedBox(
-                    width: 100,
+                    width:width*0.2,
                   ),
                   Text(
                     'Profile',
@@ -127,15 +131,15 @@ class _CostumerProfileState extends State<CostumerProfile> {
                 press: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => editAccountPage()),
+                    MaterialPageRoute(builder: (context) => editCustomerAccount()),
                   );
                 },
               ),
-              ProfileMenu(
-                text: "likes",
-                firstIcon: Icon(Icons.favorite),
-                press: () {},
-              ),
+              // ProfileMenu(
+              //   text: "likes",
+              //   firstIcon: Icon(Icons.favorite),
+              //   press: () {},
+              // ),
               ProfileMenu(
                 text: "Log Out",
                 firstIcon: Icon(Icons.logout),

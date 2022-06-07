@@ -80,6 +80,9 @@ class _addOfferPageState extends State<addOfferPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     void determinePosition() async {
       try {
         List<Placemark> placemarks =
@@ -128,7 +131,7 @@ class _addOfferPageState extends State<addOfferPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 100,
+                      height:height*0.05,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25),
@@ -210,13 +213,14 @@ class _addOfferPageState extends State<addOfferPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(width: width*0.01,),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[100],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: DropdownButton<String>(
@@ -255,7 +259,7 @@ class _addOfferPageState extends State<addOfferPage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: DropdownButton<String>(
@@ -298,9 +302,10 @@ class _addOfferPageState extends State<addOfferPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(width: width*0.01,),
                         Container(
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: TextField(
@@ -317,7 +322,7 @@ class _addOfferPageState extends State<addOfferPage> {
                                         BorderSide(color: Color(0xFFCDB889)),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  hintText: 'Surface              m²',
+                                  hintText: 'Surface          m²',
                                   fillColor: Colors.grey[100],
                                   filled: true),
                               onChanged: (value) {
@@ -331,7 +336,7 @@ class _addOfferPageState extends State<addOfferPage> {
                         ),
                         Container(
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: TextField(
@@ -460,9 +465,9 @@ class _addOfferPageState extends State<addOfferPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            width: 200,
+                            width: width*0.45,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 25),
+                              padding: EdgeInsets.symmetric(horizontal: width*0.04),
                               child: Container(
                                 padding: EdgeInsets.all(20),
                                 decoration: BoxDecoration(
@@ -488,9 +493,9 @@ class _addOfferPageState extends State<addOfferPage> {
                         GestureDetector(
                           onTap: _submit,
                           child: Container(
-                            width: 200,
+                            width: width*0.45,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 25),
+                              padding: EdgeInsets.symmetric(horizontal: width*0.04),
                               child: Container(
                                 padding: EdgeInsets.all(20),
                                 decoration: BoxDecoration(
@@ -564,6 +569,49 @@ class _addOfferPageState extends State<addOfferPage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => myOffersPage(widget.id)),
+
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 48,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Great!",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
       );
     } else {
       _showMsg('Error ${response.statusCode}');

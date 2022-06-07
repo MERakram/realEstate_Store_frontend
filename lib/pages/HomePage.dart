@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
         // if (isWarning) {
         //   lastPressed = DateTime.now();
         //
-        print('press again');
         await showMyDialog();
         return false;
         // } else {

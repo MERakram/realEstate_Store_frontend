@@ -15,13 +15,16 @@ class _searchBarState extends State<searchBar> {
   late String Search;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           margin: const EdgeInsets.fromLTRB(20, 10, 10, 20),
-          width: 240,
+          width: width*0.5,
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search',
@@ -69,8 +72,8 @@ class _searchBarState extends State<searchBar> {
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(0, 10, 10, 20),
-            width: 60,
-            height: 60,
+            width: width*0.17,
+            height: height*0.08,
             child: Icon(
               Icons.send,
               size: 40,
@@ -102,8 +105,8 @@ class _searchBarState extends State<searchBar> {
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-            width: 65,
-            height: 60,
+            width: width*0.17,
+            height: height*0.08,
             child: Icon(
               Icons.search,
               size: 40,

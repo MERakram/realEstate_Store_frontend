@@ -66,6 +66,9 @@ class _editOfferPageState extends State<editOfferPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     void determinePosition() async {
       try {
         List<Placemark> placemarks =
@@ -114,7 +117,7 @@ class _editOfferPageState extends State<editOfferPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 60,
+                      height:height*0.04,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 25),
@@ -197,13 +200,14 @@ class _editOfferPageState extends State<editOfferPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(width: width*0.01,),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: DropdownButton<String>(
@@ -242,7 +246,7 @@ class _editOfferPageState extends State<editOfferPage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: DropdownButton<String>(
@@ -285,9 +289,10 @@ class _editOfferPageState extends State<editOfferPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(width: width*0.01,),
                         Container(
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: TextFormField(
@@ -317,7 +322,7 @@ class _editOfferPageState extends State<editOfferPage> {
                         ),
                         Container(
                           height: 50,
-                          width: 170,
+                          width: width*0.4,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0),
                             child: TextFormField(
@@ -445,7 +450,7 @@ class _editOfferPageState extends State<editOfferPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            width: 200,
+                            width: width*0.45,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 25),
                               child: Container(
@@ -473,7 +478,7 @@ class _editOfferPageState extends State<editOfferPage> {
                         GestureDetector(
                           onTap: _patchoffer,
                           child: Container(
-                            width: 200,
+                            width: width*0.45,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 25),
                               child: Container(
@@ -504,7 +509,7 @@ class _editOfferPageState extends State<editOfferPage> {
                     GestureDetector(
                       onTap: _DeleteOffer,
                       child: Container(
-                        width: 200,
+                        width: width*0.45,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25),
                           child: Container(

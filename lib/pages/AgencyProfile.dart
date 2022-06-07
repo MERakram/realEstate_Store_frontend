@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../server/SharedPreferencesManager.dart';
 import '../server/api.dart';
-import 'editAccountPage.dart';
+import 'editAgencyAccount.dart';
 
 class AgencyProfile extends StatefulWidget {
   @override
@@ -48,6 +48,9 @@ class _AgencyProfileState extends State<AgencyProfile> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6F9),
@@ -65,7 +68,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -74,6 +77,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                         height: 45,
                         width: 45,
                         child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: Center(
                             child: Icon(
                               Icons.arrow_back_ios,
@@ -104,7 +108,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                     },
                   ),
                   SizedBox(
-                    width: 100,
+                    width: width*0.2,
                   ),
                   Text(
                     'Profile',
@@ -138,7 +142,9 @@ class _AgencyProfileState extends State<AgencyProfile> {
                             borderRadius: BorderRadius.circular(50)),
                         color: Colors.white,
                         child: Icon(Icons.camera_alt_outlined),
-                        onPressed: () {},
+                        onPressed: () {
+                          pickImage();
+                        },
                       ),
                     ),
                   ),
@@ -156,7 +162,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 press: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => editAccountPage()),
+                    MaterialPageRoute(builder: (context) => editAgencyAccount()),
                   );
                 },
               ),

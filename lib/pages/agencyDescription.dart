@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../component/agencyProfileComponent/agencyDescription.dart';
 import '../server/api.dart';
 
-final phoneNumber = '+213776785800';
+String phoneNumber = '+213776785800';
 final url = 'tel:$phoneNumber';
 void _launchURL() async {
   if (!await launch(url)) throw 'Could not launch $url';
@@ -26,9 +26,17 @@ class agencyDescriptionPage extends StatefulWidget {
 
 class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
   var _OwnerDetails;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    phoneNumber=_OwnerDetails['phone'];
+  }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -67,14 +75,14 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
                   },
                 ),
                 SizedBox(
-                  width: 65,
+                  width: width*0.12,
                 ),
                 Text(
                   "Agency Profile",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 SizedBox(
-                  width: 65,
+                  width: width*0.12,
                 ),
                 GestureDetector(
                     child: Container(
@@ -113,10 +121,24 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.black,fontSize: 18),
               ),
             ),
-            RecommendedCard('offerPage','/API/offersbyowner'),
+            RecommendedCard('offerPage','/API/offers'),
           ],
         ),
       ),
     );
+  }
+  _loadOwnerDetails() async {
+    var response = await Api().getData('/auth/users/${widget.id}','JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        _OwnerDetails = json.decode(response.body);
+        print(_OwnerDetails);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
 }

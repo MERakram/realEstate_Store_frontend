@@ -58,6 +58,9 @@ class _mapSearchState extends State<mapSearch> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     while (lat == null) {
       return Scaffold(
         backgroundColor: Colors.white,
@@ -87,18 +90,17 @@ class _mapSearchState extends State<mapSearch> {
             ),
             CustomInfoWindow(
               controller: _customInfoWindowController,
-              height: 150,
-              width: 380,
+              height: height*0.2,
+              width: width*0.9,
               offset: 35,
             ),
             Positioned(
-              left: 20,
-              top: 30,
+              left: width*0.05,
+              top: height*0.05,
               child: GestureDetector(
                 child: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
@@ -107,6 +109,7 @@ class _mapSearchState extends State<mapSearch> {
                     height: 45,
                     width: 45,
                     child: Container(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_ios,

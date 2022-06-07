@@ -15,12 +15,15 @@ class _OfferImageState extends State<OfferImage> {
   late bool isliked;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Center(
       child: Container(
         // color: const Color(0xFFE3E3E3),
         // color: Colors.white,
         margin: const EdgeInsets.only(top: 20),
-        height: 350,
+        height: height*0.46,
         width: double.infinity,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),

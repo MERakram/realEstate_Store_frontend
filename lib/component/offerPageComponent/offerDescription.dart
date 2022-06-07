@@ -92,7 +92,7 @@ class _offerDescriptionState extends State<offerDescription> {
                       _offerData == null ? '...' : '${_offerData['description']}',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontSize: 18,
                       ),
                     ),
                   ),
@@ -120,7 +120,7 @@ class _offerDescriptionState extends State<offerDescription> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/', 'JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerData = json.decode(response.body);

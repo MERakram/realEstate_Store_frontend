@@ -1,23 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:oued_kniss1/pages/addOffer.dart';
 
 import '../component/homePageComponent/RecomendedCard.dart';
-import 'OfferPage.dart';
-import 'editOfferPage.dart';
 
-class myOffersPage extends StatefulWidget {
-  int id;
-  myOffersPage(this.id);
+class FilterPage extends StatefulWidget {
+  Map <String, String> parametres;
+  FilterPage(this.parametres);
   @override
-  _myOffersPageState createState() {
-    return _myOffersPageState();
+  _FilterPageState createState() {
+    return _FilterPageState();
   }
 }
 
-class _myOffersPageState extends State<myOffersPage> {
+class _FilterPageState extends State<FilterPage> {
   @override
   void initState() {
     super.initState();
+    if(widget.parametres['propretytype']==null)
+      widget.parametres['propretytype']='';
+    if(widget.parametres['minprice']==null)
+      widget.parametres['minprice']='';
+    if(widget.parametres['maxprice']==null)
+      widget.parametres['maxprice']='';
+    if(widget.parametres['roomnumber']==null)
+      widget.parametres['roomnumber']='';
+    if(widget.parametres['dealtype']==null)
+      widget.parametres['dealtype']='';
   }
 
   @override
@@ -67,7 +76,8 @@ class _myOffersPageState extends State<myOffersPage> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF605F5F).withOpacity(0.1),
+                                  color:
+                                      const Color(0xFF605F5F).withOpacity(0.1),
                                   spreadRadius: 2,
                                   blurRadius: 1,
                                   offset: Offset(2, 1),
@@ -85,46 +95,16 @@ class _myOffersPageState extends State<myOffersPage> {
                       width: 40,
                     ),
                     Text(
-                      'my Offers',
+                      'Filtered Search',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 40,
+                        fontSize: 35,
                       ),
                     ),
                   ],
                 ),
-                RecommendedCard('editOfferPage','/API/offersbyowner'),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => addOfferPage(widget.id)),
-                    );
-                  },
-                  child: Container(
-                    width: 200,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFCDB889),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'New offer',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                 RecommendedCard('offerPage',
+                    '/API/offers/?price__lt=${widget.parametres['maxprice']}&price__gt=${widget.parametres['minprice']}&categories=${widget.parametres['propretytype']}&whatfor=${widget.parametres['dealtype']}'),
               ],
             ),
           ),

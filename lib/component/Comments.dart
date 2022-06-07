@@ -121,7 +121,7 @@ class _CommentsState extends State<Comments> {
     }
   }
   _loadComments() async {
-    var response = await Api().getData('/API/products/${widget.id}/reviews','JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/comments','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerReviews = json.decode(response.body);

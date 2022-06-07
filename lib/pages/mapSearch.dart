@@ -50,16 +50,18 @@ class _mapSearchState extends State<mapSearch> {
       throw e;
     }
   }
-  void setCustomMarker()async{
-    mapMarker = await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'assets/images/pin2.png');
+
+  void setCustomMarker() async {
+    mapMarker = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/images/pin2.png');
   }
+
   @override
   Widget build(BuildContext context) {
     while (lat == null) {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-            child: Center(child: CircularProgressIndicator())),
+        body: SafeArea(child: Center(child: CircularProgressIndicator())),
       );
     }
     return Scaffold(
@@ -76,8 +78,12 @@ class _mapSearchState extends State<mapSearch> {
               initialCameraPosition:
                   CameraPosition(target: LatLng(lat!, long!), zoom: 15),
               zoomGesturesEnabled: true,
-              onTap: (position){_customInfoWindowController.hideInfoWindow!();},
-              onCameraMove: (position){_customInfoWindowController.onCameraMove!();},
+              onTap: (position) {
+                _customInfoWindowController.hideInfoWindow!();
+              },
+              onCameraMove: (position) {
+                _customInfoWindowController.onCameraMove!();
+              },
             ),
             CustomInfoWindow(
               controller: _customInfoWindowController,
@@ -135,157 +141,175 @@ class _mapSearchState extends State<mapSearch> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/','JWT');
+    var response = await Api().getData('/API/offers/', 'JWT');
     if (response.statusCode == 200) {
-      setState(() {
-        _offerData = json.decode(response.body);
-        for (int i = 0; i < _offerData.length; i++) {
-          allMarkers.add(
-            Marker(
-              markerId: MarkerId(_offerData[i]['id'].toString()),
-              draggable: false,
-              position: LatLng(
-                double.parse(_offerData[i]['Lat']),
-                double.parse(
-                  _offerData[i]['Long'],
+      setState(
+        () {
+          _offerData = json.decode(response.body);
+          for (int i = 0; i < _offerData.length; i++) {
+            allMarkers.add(
+              Marker(
+                markerId: MarkerId(_offerData[i]['id'].toString()),
+                draggable: false,
+                position: LatLng(
+                  double.parse(_offerData[i]['Lat']),
+                  double.parse(
+                    _offerData[i]['Long'],
+                  ),
                 ),
-              ),
-              icon: mapMarker,
-              onTap: () {
-                _customInfoWindowController.addInfoWindow!(
-                  GestureDetector(onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OfferPage(_offerData[i]['id'])),
-                    );
-                  },
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(10, 07, 10, 7),
+                icon: mapMarker,
+                onTap: () {
+                  _customInfoWindowController.addInfoWindow!(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  OfferPage(_offerData[i]['id'])),
+                        );
+                      },
                       child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Flexible(
-                              flex: 10,
-                              child: SizedBox(
-                                child: SmallHouseImage(_offerData[i]['id']),
-                                width: 100,
-                              ),
-                            ),
-                            Flexible(
-                              flex: 16,
-                              child: Container(
-                                color: Colors.white,
-                                padding:
-                                // EdgeInsets.fromLTRB(left, top, right, bottom)
-                                const EdgeInsets.fromLTRB(10, 1, 0, 5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                    Text(
-                                      _offerData[i]['title'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 2,
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        children:  [
-                                          CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            radius: 15,
-                                            child: Icon(Icons.bed_rounded,color: Colors.black,),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            _offerData[i]['rooms'],
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,fontSize: 18),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            radius: 13,
-                                            child: Image(
-                                              image: AssetImage(
-                                                  'assets/images/area.png'),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            _offerData[i]['size'],
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      '\$ ${_offerData[i]['price'].toString()} / day',
-                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                        padding: const EdgeInsets.fromLTRB(10, 07, 10, 7),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 10,
+                                child: SizedBox(
+                                  child: SmallHouseImage(_offerData[i]['id']),
+                                  width: 100,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        height: 150,
-                        margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF605F5F).withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 1,
-                              offset: Offset(2, 1),
-                            ),
-                          ],
+                              Flexible(
+                                flex: 16,
+                                child: Container(
+                                  color: Colors.white,
+                                  padding:
+                                      // EdgeInsets.fromLTRB(left, top, right, bottom)
+                                      const EdgeInsets.fromLTRB(10, 1, 0, 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      const SizedBox(
+                                        height: 2,
+                                      ),
+                                      Text(
+                                        _offerData[i]['title'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 2,
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            if(_offerData[i]['categories'] == 'House'||_offerData[i]['categories'] =='Appartement')
+                                            CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              radius: 15,
+                                              child: Icon(
+                                                Icons.bed_rounded,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            if(_offerData[i]['categories'] == 'House'||_offerData[i]['categories'] =='Appartement')
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                            if(_offerData[i]['categories'] == 'House'||_offerData[i]['categories'] =='Appartement')
+                                              Text(
+                                                _offerData[i]['rooms'],
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,fontSize: 18),
+                                              ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            const CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              radius: 13,
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'assets/images/area.png'),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              _offerData[i]['size'],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      _offerData[i]['whatfor'] == 'for_rent'
+                                          ? Text(
+                                        '\$ ${_offerData[i]['price'].toString()} / month',
+                                        style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
+                                      )
+                                          : Text(
+                                        '\$ ${_offerData[i]['price'].toString()}',
+                                        style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          height: 150,
+                          margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: Colors.white,
+                            shape: BoxShape.rectangle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF605F5F).withOpacity(0.1),
+                                spreadRadius: 2,
+                                blurRadius: 1,
+                                offset: Offset(2, 1),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  LatLng(
-                    double.parse(_offerData[i]['Lat']),
-                    double.parse(
-                      _offerData[i]['Long'],
+                    LatLng(
+                      double.parse(_offerData[i]['Lat']),
+                      double.parse(
+                        _offerData[i]['Long'],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          );
-        }
-      });
+                  );
+                },
+              ),
+            );
+          }
+        },
+      );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Error ' + response.statusCode.toString() + ': ' + response.body),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Error ' + response.statusCode.toString() + ': ' + response.body),
+        ),
+      );
     }
   }
 }

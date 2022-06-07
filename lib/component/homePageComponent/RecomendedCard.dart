@@ -112,7 +112,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      if(_offers[index]['categories'] != 'Land')
+                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
                                         CircleAvatar(
                                         backgroundColor: Colors.white,
                                         radius: 15,
@@ -121,11 +121,11 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      if(_offers[index]['categories'] != 'Land')
+                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      if(_offers[index]['categories'] != 'Land')
+                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
                                       Text(
                                         _offers[index]['rooms'],
                                         style: const TextStyle(
@@ -150,22 +150,23 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,fontSize: 18),
                                       ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        _offers[index]['categories'],
+                                        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 14),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  _offers[index]['categories'],
-                                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18),
-                                ),
+
                                 const SizedBox(
                                   height: 5,
                                 ),
                                 _offers[index]['whatfor'] == 'for_rent'
                                     ? Text(
-                                        '\$ ${_offers[index]['price'].toString()} / day',
+                                        '\$ ${_offers[index]['price'].toString()} / month',
                                   style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
                                       )
                                     : Text(

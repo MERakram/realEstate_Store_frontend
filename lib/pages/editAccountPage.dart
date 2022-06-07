@@ -64,12 +64,17 @@ class _editAccountPageState extends State<editAccountPage> {
                           SizedBox(
                             height: 60,
                           ),
-                         SizedBox(width: 10,),
-                         Text('${_accountData['username']}',style: TextStyle(
-                           fontWeight: FontWeight.bold,
-                           fontSize: 30,
-                           color: Color(0xFFCDB889),
-                         ),),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '${_accountData['username']}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Color(0xFFCDB889),
+                            ),
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -158,7 +163,8 @@ class _editAccountPageState extends State<editAccountPage> {
                                 child: Container(
                                   width: 200,
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 25),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 25),
                                     child: Container(
                                       padding: EdgeInsets.all(20),
                                       decoration: BoxDecoration(
@@ -186,7 +192,8 @@ class _editAccountPageState extends State<editAccountPage> {
                                 child: Container(
                                   width: 200,
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 25),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 25),
                                     child: Container(
                                       padding: EdgeInsets.all(20),
                                       decoration: BoxDecoration(
@@ -224,7 +231,7 @@ class _editAccountPageState extends State<editAccountPage> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/auth/users/me/','JWT');
+    var response = await Api().getData('/auth/users/me/', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _accountData = json.decode(response.body);
@@ -253,7 +260,7 @@ class _editAccountPageState extends State<editAccountPage> {
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().patchData(data, '/auth/users/me/','JWT');
+    var response = await Api().patchData(data, '/auth/users/me/', 'JWT');
     if (response.statusCode == 200) {
       Navigator.pop(context);
     } else {

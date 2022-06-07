@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oued_kniss1/component/snackBar.dart';
+import 'package:oued_kniss1/pages/SearchPage.dart';
 
 import 'FilterSheet.dart';
 
@@ -11,6 +12,7 @@ class searchBar extends StatefulWidget {
 }
 
 class _searchBarState extends State<searchBar> {
+  late String Search;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,7 +21,7 @@ class _searchBarState extends State<searchBar> {
       children: [
         Container(
           margin: const EdgeInsets.fromLTRB(20, 10, 10, 20),
-          width: 300,
+          width: 240,
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search',
@@ -38,15 +40,10 @@ class _searchBarState extends State<searchBar> {
               filled: true,
               fillColor: Colors.white,
               contentPadding: const EdgeInsets.all(20),
-              prefixIcon: const Padding(
-                padding: EdgeInsets.only(left: 16.0, right: 8.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                  size: 28,
-                ),
-              ),
             ),
+            onChanged: (value) {
+              Search = value;
+            },
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
@@ -59,6 +56,38 @@ class _searchBarState extends State<searchBar> {
                 offset: Offset(0, 0),
               ),
             ],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchPage(Search),
+              ),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(0, 10, 10, 20),
+            width: 60,
+            height: 60,
+            child: Icon(
+              Icons.send,
+              size: 40,
+              color:  Color(0xFFCDB889),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF605F5F).withOpacity(0.1),
+                  spreadRadius: -2,
+                  blurRadius: 6,
+                  offset: Offset(0, 0),
+                ),
+              ],
+            ),
           ),
         ),
         GestureDetector(
@@ -78,9 +107,10 @@ class _searchBarState extends State<searchBar> {
             child: Icon(
               Icons.search,
               size: 40,
+              color:  Color(0xFFCDB889),
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(15),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(

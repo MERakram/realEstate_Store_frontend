@@ -74,7 +74,7 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
                         height: 12,
                       ),
                       Text(
-                        'house mda5en in cupertino',
+                        'Check other offers from us!',
                         softWrap: true,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
@@ -131,7 +131,7 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
   }
 
   _loadOwner() async {
-    var response = await Api().getData('/API/products/${widget.id}', 'JWT');
+    var response = await Api().getData('/API/offers/${widget.id}', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerOwner = json.decode(response.body);

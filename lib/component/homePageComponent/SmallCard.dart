@@ -190,7 +190,7 @@ class _SmallCardState extends State<SmallCard> {
     setState(() {
       _isLoading = true;
     });
-    var response = await Api().getData('/API/products','JWT');
+    var response = await Api().getData('/API/offers','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _isLoading = false;

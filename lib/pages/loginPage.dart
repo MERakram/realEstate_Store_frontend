@@ -67,7 +67,7 @@ class _loginPageState extends State<loginPage> {
                   Container(
                   height: 200,
                     width: 200,
-                    child: SvgPicture.asset('assets/images/Asset3.svg'),
+                    child: SvgPicture.asset('assets/images/login.svg'),
                   ),
                   SizedBox(
                     height: 75,

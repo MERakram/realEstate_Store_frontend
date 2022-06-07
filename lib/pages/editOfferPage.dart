@@ -539,7 +539,7 @@ class _editOfferPageState extends State<editOfferPage> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/','JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerData = json.decode(response.body);
@@ -554,7 +554,7 @@ class _editOfferPageState extends State<editOfferPage> {
     }
   }
   _DeleteOffer() async {
-    var response = await Api().deleteData('/API/products/${widget.id}/','JWT');
+    var response = await Api().deleteData('/API/offers/${widget.id}/','JWT');
     if (response.statusCode == 204) {
       Navigator.pop(context);
       print(response.body);
@@ -585,7 +585,7 @@ class _editOfferPageState extends State<editOfferPage> {
     // data['image'] = _image.path;
 
     //var response = await Api().postDataWithImage(data, '/offers', _image.path);
-    var response = await Api().patchData(data,'/API/products/${widget.id}/','JWT');
+    var response = await Api().patchData(data,'/API/offers/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       Navigator.pop(context);
     } else {

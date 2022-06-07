@@ -10,6 +10,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_location_picker/google_map_location_picker.dart';
 import 'package:map_location_picker/map_location_picker.dart';
+import 'package:oued_kniss1/pages/myOffersPage.dart';
 
 import '../server/api.dart';
 
@@ -144,7 +145,7 @@ class _addOfferPageState extends State<addOfferPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             hintText: 'Title',
-                            fillColor: Colors.grey[200],
+                            fillColor: Colors.grey[100],
                             filled: true),
                         onChanged: (value) {
                           title = value;
@@ -170,7 +171,7 @@ class _addOfferPageState extends State<addOfferPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             hintText: 'Price',
-                            fillColor: Colors.grey[200],
+                            fillColor: Colors.grey[100],
                             filled: true),
                         onChanged: (value) {
                           price = value;
@@ -196,7 +197,7 @@ class _addOfferPageState extends State<addOfferPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             hintText: 'Description',
-                            fillColor: Colors.grey[200],
+                            fillColor: Colors.grey[100],
                             filled: true),
                         onChanged: (value) {
                           description = value;
@@ -211,7 +212,7 @@ class _addOfferPageState extends State<addOfferPage> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.grey[100],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
@@ -250,7 +251,7 @@ class _addOfferPageState extends State<addOfferPage> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.grey[100],
                             borderRadius: BorderRadius.circular(12),
                           ),
                           height: 50,
@@ -317,7 +318,7 @@ class _addOfferPageState extends State<addOfferPage> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   hintText: 'Surface              m²',
-                                  fillColor: Colors.grey[200],
+                                  fillColor: Colors.grey[100],
                                   filled: true),
                               onChanged: (value) {
                                 surface = value;
@@ -348,7 +349,7 @@ class _addOfferPageState extends State<addOfferPage> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   hintText: 'Rooms',
-                                  fillColor: Colors.grey[200],
+                                  fillColor: Colors.grey[100],
                                   filled: true),
                               onChanged: (value) {
                                 rooms = value;
@@ -396,7 +397,7 @@ class _addOfferPageState extends State<addOfferPage> {
                           height: 60,
                           width: 360,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.grey[100],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -430,7 +431,7 @@ class _addOfferPageState extends State<addOfferPage> {
                           height: 60,
                           width: 360,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.grey[100],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -520,7 +521,7 @@ class _addOfferPageState extends State<addOfferPage> {
               ),
             ),
           ),
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
         ),
       ),
     );
@@ -557,10 +558,13 @@ class _addOfferPageState extends State<addOfferPage> {
     data['Lat'] =latStr;
     data['Long'] = longStr;
     // data['image'] = _image.path;
-    var response = await Api().postDataWithImages(data, '/API/products/', multipleImages,'JWT','uploaded_images');
+    var response = await Api().postDataWithImages(data, '/API/offers/', multipleImages,'JWT','uploaded_images');
 
     if (response.statusCode == 201) {
-      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => myOffersPage(widget.id)),
+      );
     } else {
       _showMsg('Error ${response.statusCode}');
     }

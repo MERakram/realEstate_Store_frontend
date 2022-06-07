@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oued_kniss1/pages/HomePage.dart';
 import 'package:oued_kniss1/pages/loginPage.dart';
 import 'package:oued_kniss1/pages/myOffersPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,7 +97,10 @@ class _AgencyProfileState extends State<AgencyProfile> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
                     },
                   ),
                   SizedBox(

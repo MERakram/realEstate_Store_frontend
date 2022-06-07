@@ -72,7 +72,7 @@ class _imageSliderState extends State<imageSlider> {
     // setState(() {
     //   _isLoading = true;
     // });
-    var response = await Api().getData('/API/products/${widget.id}/', 'JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/', 'JWT');
     if (response.statusCode == 200) {
       setState(() {
         // _isLoading = false;

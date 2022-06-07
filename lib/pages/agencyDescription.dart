@@ -113,7 +113,7 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.black,fontSize: 18),
               ),
             ),
-            RecommendedCard('offerPage','/API/productsbyowner'),
+            RecommendedCard('offerPage','/API/offersbyowner'),
           ],
         ),
       ),

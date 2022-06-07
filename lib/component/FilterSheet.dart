@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
+import '../pages/FilterPage.dart';
+
 class FilterOffer extends StatefulWidget {
   BuildContext context;
   FilterOffer({Key? key, required this.context}) : super(key: key);
@@ -12,16 +14,16 @@ class FilterOffer extends StatefulWidget {
 class _FilterOfferState extends State<FilterOffer> {
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
-      const DropdownMenuItem(child: Text("For rent"), value: "rent"),
-      const DropdownMenuItem(child: Text("For sale"), value: "sale"),
+      const DropdownMenuItem(child: Text("For rent"), value: "for_rent"),
+      const DropdownMenuItem(child: Text("For sale"), value: "for_sale"),
     ];
     return menuItems;
   }
 
   int current = 0;
   Map<String, String> parametres = {};
-  String dropdownValue = 'rent';
-  String selectedValue = "rent";
+  String dropdownValue = 'for_rent';
+  String selectedValue = "for_sale";
   RangeValues _currentRangeValues = const RangeValues(40, 400000);
   List<String> roomnumber = ['Any', '1', '2', '3', '4', '5', '6', '7', '8'];
   // show filtred announces
@@ -72,8 +74,13 @@ class _FilterOfferState extends State<FilterOffer> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    // await showfiltredannounces(parametres);
-                    print(parametres);
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FilterPage(parametres),
+                      ),
+                    );
+                    // print(parametres);
                     setState(() {
                       parametres = {};
                     });
@@ -84,7 +91,6 @@ class _FilterOfferState extends State<FilterOffer> {
                     //     context: context,
                     //     builder: (context) =>
                     //         AnnounceColumn(announces: announcelist));
-
                   },
                   child: const Text('apply'),
                 ),
@@ -112,7 +118,7 @@ class _FilterOfferState extends State<FilterOffer> {
                 RangeSlider(
                   values: _currentRangeValues,
                   max: 400000,
-                   divisions: 200,
+                  divisions: 200,
                   // labels: RangeLabels(
                   //   _currentRangeValues.start.round().toString(),
                   //   _currentRangeValues.end.round().toString(),
@@ -203,7 +209,7 @@ class _FilterOfferState extends State<FilterOffer> {
                           dropdownValue = newValue;
                         });
                       },
-                      items: <String>['rent', 'Sale']
+                      items: <String>['for_rent', 'for_sale']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -234,16 +240,16 @@ class _FilterOfferState extends State<FilterOffer> {
                         children: [
                           ElevatedButton.icon(
                               onPressed: () {
-                                parametres['propretytype'] = 'villa';
+                                parametres['propretytype'] = 'House';
                               },
                               icon: const Icon(Icons.house_rounded),
-                              label: Text('Villa')),
+                              label: Text('House')),
                           ElevatedButton.icon(
                               onPressed: () {
                                 parametres['propretytype'] = 'Appartement';
                               },
                               icon: const Icon(Icons.apartment_rounded),
-                              label: Text(' Appartment'))
+                              label: Text('Appartment'))
                         ],
                       ),
                       Row(
@@ -251,16 +257,16 @@ class _FilterOfferState extends State<FilterOffer> {
                         children: [
                           ElevatedButton.icon(
                               onPressed: () {
-                                parametres['propretytype'] = 'studio';
+                                parametres['propretytype'] = 'Industrial';
                               },
                               icon: const Icon(Icons.bedroom_parent_rounded),
-                              label: Text('Studio')),
+                              label: Text('Industrial')),
                           ElevatedButton.icon(
                               onPressed: () {
-                                parametres['propretytype'] = 'land';
+                                parametres['propretytype'] = 'Land';
                               },
                               icon: const Icon(Icons.fullscreen),
-                              label: Text('land')),
+                              label: Text('Land')),
                         ],
                       ),
                     ],

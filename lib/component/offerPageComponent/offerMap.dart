@@ -79,7 +79,7 @@ class _offerMapState extends State<offerMap> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/','JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       setState(
         () {

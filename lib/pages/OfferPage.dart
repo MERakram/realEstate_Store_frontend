@@ -139,7 +139,7 @@ class _OfferPageState extends State<OfferPage> {
   }
 
   _loadData() async {
-    var response = await Api().getData('/API/products/${widget.id}/','JWT');
+    var response = await Api().getData('/API/offers/${widget.id}/','JWT');
     if (response.statusCode == 200) {
       setState(() {
         _offerData = json.decode(response.body);
@@ -155,8 +155,7 @@ class _OfferPageState extends State<OfferPage> {
   void _submitComment() async {
     var data = new Map<String, String>();
     data['description'] = comment;
-
-    var response = await Api().postData(data, '/API/products/${widget.id}/reviews/','Bearer');
+    var response = await Api().postData(data, '/API/offers/${widget.id}/comments/','JWT');
     if (response.statusCode == 201) {
       Unfocus();
       Navigator.pop(context);

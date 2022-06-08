@@ -1,3 +1,6 @@
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -23,6 +26,7 @@ class _FilterOfferState extends State<FilterOffer> {
   int current = 0;
   Map<String, String> parametres = {};
   String dropdownValue = 'for_rent';
+  String dropdown2Value = 'Appartement';
   String selectedValue = "for_sale";
   RangeValues _currentRangeValues = const RangeValues(40, 400000);
   List<String> roomnumber = ['Any', '1', '2', '3', '4', '5', '6', '7', '8'];
@@ -92,7 +96,7 @@ class _FilterOfferState extends State<FilterOffer> {
                     //     builder: (context) =>
                     //         AnnounceColumn(announces: announcelist));
                   },
-                  child: const Text('apply'),
+                  child: const Text('apply',style: TextStyle(color: Color(0xFFCDB889),fontSize: 18),),
                 ),
               ],
             ),
@@ -103,19 +107,25 @@ class _FilterOfferState extends State<FilterOffer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Price Range',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Center(
+                  child: Text(
+                    'Price Range',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text(_currentRangeValues.start.round().toString() +
-                    '\$' +
-                    '-' +
-                    _currentRangeValues.end.round().toString() +
-                    '\$'),
+                Center(
+                  child: Text(_currentRangeValues.start.round().toString() +
+                      '\$' +
+                      '-' +
+                      _currentRangeValues.end.round().toString() +
+                      '\$'),
+                ),
                 RangeSlider(
+                  activeColor: Color(0xFFCDB889),
+                  inactiveColor: Color(0x77CDB889),
                   values: _currentRangeValues,
                   max: 400000,
                   divisions: 200,
@@ -173,7 +183,7 @@ class _FilterOfferState extends State<FilterOffer> {
                                   : BorderRadius.circular(10),
                               border: current == index
                                   ? Border.all(
-                                      color: Colors.deepPurpleAccent, width: 2)
+                                      color: Color(0xFFCDB889), width: 2)
                                   : null,
                             ),
                             child: Center(
@@ -200,9 +210,10 @@ class _FilterOfferState extends State<FilterOffer> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     DropdownButton<String>(
+                      underline: SizedBox(),
                       value: dropdownValue,
                       // elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
+                      style: const TextStyle(color: Color(0xFFCDB889)),
                       onChanged: (String? newValue) {
                         setState(() {
                           parametres['dealtype'] = newValue!;
@@ -213,7 +224,7 @@ class _FilterOfferState extends State<FilterOffer> {
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                         );
                       }).toList(),
                     )
@@ -222,56 +233,89 @@ class _FilterOfferState extends State<FilterOffer> {
                 const Divider(
                   thickness: 1.2,
                 ),
-                const Text(
-                  'Proprety type',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Proprety type',
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    DropdownButton<String>(
+                      underline: SizedBox(),
+                      value: dropdown2Value,
+                      // elevation: 16,
+                      style: const TextStyle(color: Color(0xFFCDB889)),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          parametres['propretytype'] = newValue!;
+                          dropdown2Value = newValue;
+                        });
+                      },
+                      items: <String>['Appartement',
+                      'House',
+                        'Industrial',
+                        'Commercial',
+                        'Land']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                        );
+                      }).toList(),
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 200,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton.icon(
-                              onPressed: () {
-                                parametres['propretytype'] = 'House';
-                              },
-                              icon: const Icon(Icons.house_rounded),
-                              label: Text('House')),
-                          ElevatedButton.icon(
-                              onPressed: () {
-                                parametres['propretytype'] = 'Appartement';
-                              },
-                              icon: const Icon(Icons.apartment_rounded),
-                              label: Text('Appartment'))
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton.icon(
-                              onPressed: () {
-                                parametres['propretytype'] = 'Industrial';
-                              },
-                              icon: const Icon(Icons.bedroom_parent_rounded),
-                              label: Text('Industrial')),
-                          ElevatedButton.icon(
-                              onPressed: () {
-                                parametres['propretytype'] = 'Land';
-                              },
-                              icon: const Icon(Icons.fullscreen),
-                              label: Text('Land')),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                // const Text(
+                //   'Proprety type',
+                //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Container(
+                //   height: 200,
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //         children: [
+                //           ElevatedButton.icon(
+                //               onPressed: () {
+                //                 parametres['propretytype'] = 'House';
+                //               },
+                //               icon: const Icon(Icons.house_rounded),
+                //               label: Text('House')),
+                //           ElevatedButton.icon(
+                //               onPressed: () {
+                //                 parametres['propretytype'] = 'Appartement';
+                //               },
+                //               icon: const Icon(Icons.apartment_rounded),
+                //               label: Text('Appartment'))
+                //         ],
+                //       ),
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //         children: [
+                //           ElevatedButton.icon(
+                //               onPressed: () {
+                //                 parametres['propretytype'] = 'Industrial';
+                //               },
+                //               icon: const Icon(Icons.bedroom_parent_rounded),
+                //               label: Text('Industrial')),
+                //           ElevatedButton.icon(
+                //               onPressed: () {
+                //                 parametres['propretytype'] = 'Land';
+                //               },
+                //               icon: const Icon(Icons.fullscreen),
+                //               label: Text('Land')),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             )
           ],

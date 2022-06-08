@@ -57,9 +57,9 @@ class _agencyDescState extends State<agencyDesc> {
                   const SizedBox(
                     height: 2,
                   ),
-                  const Text(
+                   Text(
                     //agency location
-                    'house mda5en in cupirtino hello wo ',
+                    _OwnerDetails==null?'...':_OwnerDetails['username'],
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
@@ -70,7 +70,7 @@ class _agencyDescState extends State<agencyDesc> {
                   ),
                   ExpandText(
                     //agency desc
-                    text,
+                    _OwnerDetails==null?'...':_OwnerDetails['description'],
                     style: const TextStyle(fontSize: 20),
                     textAlign: TextAlign.justify,
                   ),

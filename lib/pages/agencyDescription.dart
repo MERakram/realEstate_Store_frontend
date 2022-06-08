@@ -30,7 +30,8 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    phoneNumber=_OwnerDetails['phone'];
+    _loadOwnerDetails()
+    ;
   }
   @override
   Widget build(BuildContext context) {
@@ -133,6 +134,7 @@ class _agencyDescriptionPageState extends State<agencyDescriptionPage> {
       setState(() {
         _OwnerDetails = json.decode(response.body);
         print(_OwnerDetails);
+        phoneNumber=_OwnerDetails['phone'];
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

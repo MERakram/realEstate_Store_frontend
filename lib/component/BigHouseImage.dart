@@ -14,7 +14,7 @@ class BigHouseImage extends StatefulWidget {
 }
 
 class _BigHouseImageState extends State<BigHouseImage> {
-  var _offers, _LikedList;
+  var _offers, _LikedList,_profileData;
   bool isliked = false;
   @override
   void initState() {
@@ -95,6 +95,8 @@ class _BigHouseImageState extends State<BigHouseImage> {
                           setState(() {
                             isliked = !isliked;
                           });
+                          if(isliked)
+                            _PostLiked();
                         },
                       )
                     ],
@@ -152,14 +154,34 @@ class _BigHouseImageState extends State<BigHouseImage> {
       );
     }
   }
-
-  Future<bool> onLikeButtonTapped(bool isLiked) async {
-    /// send your request here
-    // final bool success= await sendRequest();
-
-    /// if failed, you can do nothing
-    // return success? !isLiked:isLiked;
-
-    return !isLiked;
+  _loadData() async {
+    var response = await Api().getData('/auth/users/me/', 'JWT');
+    if (response.statusCode == 200) {
+      setState(() {
+        _profileData = json.decode(response.body);
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Error ' + response.statusCode.toString() + ': ' + response.body),
+      ));
+    }
   }
+  _PostLiked() async {
+    await _loadData();
+    var data = new Map<String, int>();
+    data['Offer'] = widget.id ;
+    data['Bookmarked by'] = _profileData['id'];
+    var response = await Api(). postData(data,'/API/bookmark/', 'JWT');
+    if (response.statusCode == 201) {
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Error ' + response.statusCode.toString() + ': ' + response.body),
+        ),
+      );
+    }
+  }
+
 }

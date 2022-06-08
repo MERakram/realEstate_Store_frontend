@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oued_kniss1/pages/HomePage.dart';
 
 import '../server/SharedPreferencesManager.dart';
 import '../server/api.dart';
 import 'editAgencyAccount.dart';
 import 'editCustomerAccount.dart';
 import 'loginPage.dart';
+import 'myLikedOffers.dart';
 import 'myOffersPage.dart';
 
 class CostumerProfile extends StatefulWidget {
@@ -77,7 +79,12 @@ class _CostumerProfileState extends State<CostumerProfile> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     },
                   ),
                   SizedBox(
@@ -138,7 +145,13 @@ class _CostumerProfileState extends State<CostumerProfile> {
               // ProfileMenu(
               //   text: "likes",
               //   firstIcon: Icon(Icons.favorite),
-              //   press: () {},
+              //   press: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => myLikedOffers(_profileData['id'])),
+              //     );
+              //   },
               // ),
               ProfileMenu(
                 text: "Log Out",

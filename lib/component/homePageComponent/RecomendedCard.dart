@@ -54,8 +54,8 @@ class _RecommendedCardState extends State<RecommendedCard> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                OfferPage(_offers[index]['id'])),
+                          builder: (context) => OfferPage(_offers[index]['id']),
+                        ),
                       );
                     } else if (widget.destination == 'editOfferPage') {
                       Navigator.push(
@@ -77,8 +77,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                           ),
                           BigHouseImage(_offers[index]['id']),
                           Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(18, 1, 12, 5),
+                            padding: const EdgeInsets.fromLTRB(18, 1, 12, 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,25 +111,35 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 Container(
                                   child: Row(
                                     children: [
-                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
+                                      if (_offers[index]['categories'] ==
+                                              'House' ||
+                                          _offers[index]['categories'] ==
+                                              'Appartement')
                                         CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        radius: 15,
-                                        child: Icon(
-                                          Icons.bed_rounded,
-                                          color: Colors.black,
+                                          backgroundColor: Colors.white,
+                                          radius: 15,
+                                          child: Icon(
+                                            Icons.bed_rounded,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      if(_offers[index]['categories'] == 'House'||_offers[index]['categories'] =='Appartement')
-                                      Text(
-                                        _offers[index]['rooms'],
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,fontSize: 18),
-                                      ),
+                                      if (_offers[index]['categories'] ==
+                                              'House' ||
+                                          _offers[index]['categories'] ==
+                                              'Appartement')
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                      if (_offers[index]['categories'] ==
+                                              'House' ||
+                                          _offers[index]['categories'] ==
+                                              'Appartement')
+                                        Text(
+                                          _offers[index]['rooms'],
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
                                       const SizedBox(
                                         width: 5,
                                       ),
@@ -148,14 +157,18 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                       Text(
                                         _offers[index]['size'],
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold,fontSize: 18),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
                                         _offers[index]['categories'],
-                                        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 14),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -167,11 +180,17 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 _offers[index]['whatfor'] == 'for_rent'
                                     ? Text(
                                         '\$ ${_offers[index]['price'].toString()} / month',
-                                  style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFFCDB889),
+                                            fontSize: 20),
                                       )
                                     : Text(
                                         '\$ ${_offers[index]['price'].toString()}',
-                                  style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFCDB889),fontSize: 20),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFFCDB889),
+                                            fontSize: 20),
                                       ),
                               ],
                             ),

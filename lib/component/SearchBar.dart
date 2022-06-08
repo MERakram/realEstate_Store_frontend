@@ -76,7 +76,7 @@ class _searchBarState extends State<searchBar> {
             height: height*0.08,
             child: Icon(
               Icons.send,
-              size: 40,
+              size: 30,
               color:  Color(0xFFCDB889),
             ),
             decoration: BoxDecoration(

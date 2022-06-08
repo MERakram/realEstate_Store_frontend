@@ -145,7 +145,7 @@ class _editAgencyAccountState extends State<editAgencyAccount> {
                                         BorderSide(color: Color(0xFFCDB889)),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  hintText: 'last_name',
+                                  hintText: 'Last name',
                                   fillColor: Colors.grey[200],
                                   filled: true),
                               onChanged: (value) {
@@ -159,6 +159,8 @@ class _editAgencyAccountState extends State<editAgencyAccount> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25),
                             child: TextFormField(
+                              maxLength: 200,
+                              maxLines: 3,
                               initialValue: _accountData['description'],
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -309,7 +311,7 @@ class _editAgencyAccountState extends State<editAgencyAccount> {
 
     data['last_name'] =
         last_name == null ? _accountData['last_name'] : last_name;
-    data['description'] = description == null ? _accountData['description'] : description;
+     data['description'] = description == null ? _accountData['description'] : description;
     data['phone'] = phone == null ? _accountData['phone'] : phone;
     // data['image'] = _image.path;
 

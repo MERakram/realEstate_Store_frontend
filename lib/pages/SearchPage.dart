@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     if (widget.Search==null)
-      widget.Search='';
+      widget.Search=' ';
   }
 
   @override

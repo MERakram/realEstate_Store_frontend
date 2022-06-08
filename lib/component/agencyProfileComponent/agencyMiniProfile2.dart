@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../server/api.dart';
+import '../SmallAgencyImage.dart';
 import '../SmallHouseImage.dart';
 
 class agencyMiniProfile2 extends StatefulWidget {
@@ -32,7 +33,7 @@ class _agencyMiniProfile2State extends State<agencyMiniProfile2> {
             Flexible(
               flex: 11,
               child: SizedBox(
-                child: SmallHouseImage(widget.id),
+                child: SmallAgencyImage(widget.id),
                 width: 100,
               ),
             ),
@@ -61,7 +62,7 @@ class _agencyMiniProfile2State extends State<agencyMiniProfile2> {
                       height: 20,
                     ),
                     Text(
-                      'house mda5en in cupertino',
+                      _OwnerDetails==null?'...':_OwnerDetails['phone'],
                       softWrap: true,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,

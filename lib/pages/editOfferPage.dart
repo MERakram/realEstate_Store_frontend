@@ -110,7 +110,7 @@ class _editOfferPageState extends State<editOfferPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'EDIT OFFER',
+                      'Edit Offer',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

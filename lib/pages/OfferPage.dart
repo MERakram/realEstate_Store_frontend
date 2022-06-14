@@ -122,7 +122,7 @@ class _OfferPageState extends State<OfferPage> {
                         borderSide: BorderSide(color: Color(0xFFCDB889)),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      hintText: 'what do u think?',
+                      hintText: 'what do you think?',
                       fillColor: Colors.grey[100],
                       filled: true),
                   onChanged: (value) {

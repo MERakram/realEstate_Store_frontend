@@ -98,7 +98,7 @@ class _CostumerProfileState extends State<CostumerProfile> {
               ),
               SizedBox(height: 30,),
               Stack(
-                overflow: Overflow.visible,
+                // overflow: Overflow.visible,
                 children: [
                   CircleAvatar(
                     radius: 70,

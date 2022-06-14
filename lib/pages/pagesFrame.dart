@@ -23,7 +23,7 @@ class _pagesFrameState extends State<pagesFrame> {
   final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     // OfferPage(),
-    mapSearch(),
+    // mapSearch(),
     AgencyProfile(),
   ];
 

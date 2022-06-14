@@ -96,13 +96,14 @@ class _FilterPageState extends State<FilterPage> {
                       },
                     ),
                     SizedBox(
-                      width: width*0.08,
+                      width: width*0.1,
                     ),
                     Text(
                       'Filtered Search',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 30,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                   ],

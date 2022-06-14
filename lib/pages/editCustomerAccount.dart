@@ -58,7 +58,7 @@ class _editCustomerAccountState extends State<editCustomerAccount> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'EDIT PROFILE',
+                      'Edit Profile',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

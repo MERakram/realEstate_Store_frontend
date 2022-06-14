@@ -120,7 +120,7 @@ class _AgencyProfileState extends State<AgencyProfile> {
                 height: 40,
               ),
               Stack(
-                overflow: Overflow.visible,
+                // overflow: Overflow.visible,
                 children: [
                   CircleAvatar(
                     radius: 70,

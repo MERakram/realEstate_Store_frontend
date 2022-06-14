@@ -29,7 +29,7 @@ class _mapSearchState extends State<mapSearch> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => getloc(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => getloc(context));
     _loadData();
     setCustomMarker();
   }

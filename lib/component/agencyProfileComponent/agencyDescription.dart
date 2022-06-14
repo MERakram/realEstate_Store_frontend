@@ -55,18 +55,18 @@ class _agencyDescState extends State<agencyDesc> {
                     ),
                   ),
                   const SizedBox(
-                    height: 2,
+                    height: 6,
                   ),
-                   Text(
-                    //agency location
-                    _OwnerDetails==null?'...':_OwnerDetails['username'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
-                  ),
+                  //  Text(
+                  //   //agency location
+                  //   _OwnerDetails==null?'...':_OwnerDetails['username'],
+                  //   style: TextStyle(
+                  //     fontWeight: FontWeight.w500,
+                  //     fontSize: 26,
+                  //   ),
+                  // ),
                   const SizedBox(
-                    height: 2,
+                    height: 6,
                   ),
                   ExpandText(
                     //agency desc

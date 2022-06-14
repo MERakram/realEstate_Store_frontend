@@ -30,7 +30,7 @@ class _agencyMiniProfileState extends State<agencyMiniProfile> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                agencyDescriptionPage(_offerOwner['owner_id']),
+                agencyDescriptionPage(widget.id),
           ),
         );
       },

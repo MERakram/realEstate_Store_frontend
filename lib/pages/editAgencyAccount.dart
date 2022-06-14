@@ -58,7 +58,7 @@ class _editAgencyAccountState extends State<editAgencyAccount> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'EDIT PROFILE',
+                            'Edit Profile',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -309,9 +309,8 @@ class _editAgencyAccountState extends State<editAgencyAccount> {
         first_name == null ? _accountData['first_name'] : first_name;
     //data['user_id'] = user_id.toString();
 
-    data['last_name'] =
-        last_name == null ? _accountData['last_name'] : last_name;
-     data['description'] = description == null ? _accountData['description'] : description;
+    data['last_name'] = last_name == null ? _accountData['last_name'] : last_name;
+    data['description'] = description == null ? _accountData['description'] : description;
     data['phone'] = phone == null ? _accountData['phone'] : phone;
     // data['image'] = _image.path;
 

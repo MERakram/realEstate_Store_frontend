@@ -124,7 +124,7 @@ class _addOfferPageState extends State<addOfferPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'ADD OFFER',
+                      'Add Offer',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

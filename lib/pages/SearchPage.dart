@@ -16,6 +16,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,9 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -43,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
                 Row(
                   children: <Widget>[
                     SizedBox(
-                      width: 30,
+                      width: width*0.03,
                     ),
                     GestureDetector(
                       child: Padding(
@@ -87,13 +91,14 @@ class _SearchPageState extends State<SearchPage> {
                       },
                     ),
                     SizedBox(
-                      width: 40,
+                      width: width*0.08,
                     ),
                     Text(
                       'Filtered Search',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 35,
+                        fontSize: 30,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                   ],

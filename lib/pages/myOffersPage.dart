@@ -28,6 +28,9 @@ class _myOffersPageState extends State<myOffersPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -88,13 +91,14 @@ class _myOffersPageState extends State<myOffersPage> {
                       },
                     ),
                     SizedBox(
-                      width: 40,
+                      width:width*0.14,
                     ),
                     Text(
-                      'my Offers',
+                      'My Offers',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 40,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ],
@@ -119,7 +123,7 @@ class _myOffersPageState extends State<myOffersPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'New offer',
+                            'New Offer',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
